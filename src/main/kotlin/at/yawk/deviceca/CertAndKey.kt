@@ -18,14 +18,26 @@ import java.security.SecureRandom
 import java.security.cert.X509Certificate
 import java.time.Duration
 import java.time.Instant
+import java.time.ZoneOffset
 import java.util.Date
 
 data class CertAndKey(
     val cert: X509Certificate,
     val key: PrivateKey,
 ) {
+    val start: Instant
+        get() = cert.notBefore.toInstant().plus(GRACE_TIME)
+
+    val end: Instant
+        get() = cert.notAfter.toInstant()
+
+    val uniqueName: String
+        get() = start.atOffset(ZoneOffset.UTC).toLocalDate().toString() + "_" + cert.serialNumber
+
+    override fun toString() = "Cert[$start to $end; $uniqueName]"
+
     fun sign(
-        now: Instant,
+        from: Instant,
         publicKeyInfo: SubjectPublicKeyInfo,
         cn: String,
         san: GeneralName = GeneralName(GeneralName.dNSName, cn),
@@ -35,8 +47,8 @@ data class CertAndKey(
         val builder = JcaX509v3CertificateBuilder(
             X500Name.getInstance(cert.subjectX500Principal.encoded),
             BigInteger(64, SecureRandom.getInstanceStrong()),
-            Date.from(now.minus(Duration.ofMinutes(30))),
-            Date.from(now.plus(Duration.ofDays(7))),
+            Date.from(from.minus(GRACE_TIME)),
+            Date.from(from.plus(lifetime)),
             X500NameBuilder().addRDN(BCStyle.CN, cn).build(),
             publicKeyInfo
         )

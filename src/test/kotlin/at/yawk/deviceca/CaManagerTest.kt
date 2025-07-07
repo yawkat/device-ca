@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
-import java.time.Duration
 import java.time.Instant
 import java.time.InstantSource
 import java.time.temporal.ChronoUnit
@@ -16,47 +15,61 @@ class CaManagerTest {
 
     @Test
     fun test() {
-        var time = Instant.now()
+        val scheduler = object : TimeScheduler, InstantSource {
+            var time = Instant.now()
+                set(value) {
+                    field = value
+                    val scheduled = scheduled
+                    if (scheduled != null && scheduled.first <= value) {
+                        this.scheduled = null
+                        scheduled.second.invoke()
+                    }
+                }
 
-        val clock = InstantSource { time }
-        val certificateLifeTime = Duration.ofDays(30)
+            private var scheduled: Pair<Instant, () -> Unit>? = null
+
+            override fun schedule(time: Instant, task: () -> Unit) {
+                assert(time > this.time)
+                assert(scheduled == null)
+                this.scheduled = Pair(time, task)
+            }
+
+            override fun instant() = time
+        }
         val caManager = CaManager(
-            tmp.resolve("ca-certs"),
-            tmp.resolve("ca.key"),
-            tmp.resolve("local.key"),
-            tmp.resolve("local.pem"),
-            clock,
-            certificateLifeTime
+            tmp,
+            tmp.resolve("traefik.crt"),
+            tmp.resolve("traefik.key"),
+            scheduler,
+            scheduler
         )
 
         val certificates1 = caManager.getValidCertificates()
-        assertEquals(1, certificates1.size)
-        val certificates2 = caManager.getValidCertificates()
-        assertEquals(certificates1, certificates2)
+        assertEquals(2, certificates1.size)
         val key1 = caManager.getSigningKey()
-        assertEquals(certificates1.single(), key1.cert)
-        certificates1.single().checkValidity(Date.from(time))
+        assertEquals(certificates1.first(), key1.cert)
+        certificates1.first().checkValidity(Date.from(scheduler.time))
         assertEquals(
-            time.plus(certificateLifeTime).truncatedTo(ChronoUnit.SECONDS),
-            certificates1.single().notAfter.toInstant()
+            scheduler.time.plus(INTERMEDIATE_ROLLOVER_PERIOD * 2).truncatedTo(ChronoUnit.SECONDS),
+            certificates1.first().notAfter.toInstant()
         )
 
-        time += Duration.ofDays(20)
+        scheduler.time += INTERMEDIATE_ROLLOVER_PERIOD * 4 / 3
 
-        val certificates3 = caManager.getValidCertificates()
-        assertEquals(2, certificates3.size)
-        assertEquals(certificates1.single(), certificates3.first())
+        val certificates2 = caManager.getValidCertificates()
+        assertEquals(3, certificates2.size)
+        assertEquals(certificates1, certificates2.subList(0, 2))
         val key2 = caManager.getSigningKey()
-        assertEquals(certificates3.last(), key2.cert)
-        certificates3.forEach { it.checkValidity(Date.from(time)) }
+        assertEquals(certificates2[1], key2.cert)
+        certificates2.forEach { if (it.notBefore.toInstant() <= scheduler.time) it.checkValidity(Date.from(scheduler.time)) }
 
-        time += Duration.ofDays(20)
+        scheduler.time += INTERMEDIATE_ROLLOVER_PERIOD * 4 / 3
 
         val key3 = caManager.getSigningKey()
-        val certificates4 = caManager.getValidCertificates()
-        assertEquals(2, certificates4.size)
-        assertEquals(certificates3.last(), certificates4.first())
-        certificates4.forEach { it.checkValidity(Date.from(time)) }
-        assertEquals(certificates4.last(), key3.cert)
+        val certificates3 = caManager.getValidCertificates()
+        assertEquals(3, certificates3.size)
+        assertEquals(certificates2.subList(1, 3), certificates3.subList(0, 2))
+        certificates3.forEach { if (it.notBefore.toInstant() <= scheduler.time) it.checkValidity(Date.from(scheduler.time)) }
+        assertEquals(certificates3[1], key3.cert)
     }
 }
