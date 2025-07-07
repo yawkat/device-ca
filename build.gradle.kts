@@ -26,6 +26,9 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     testImplementation("io.micronaut:micronaut-http-client")
+
+    implementation("org.bouncycastle:bcpkix-jdk18on:1.81")
+    implementation("org.apache.commons:commons-compress:1.27.1")
 }
 
 
