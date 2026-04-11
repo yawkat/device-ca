@@ -189,7 +189,7 @@ class CaManager(
         val kpg = KeyPairGenerator.getInstance("RSA")
         kpg.initialize(2048)
         val keyPair = kpg.genKeyPair()
-        val principal = X500Principal("CN=root@ca.local.yawk.at")
+        val principal = X500Principal("CN=ca@ca.local.yawk.at")
         val builder = JcaX509v3CertificateBuilder(
             principal,
             BigInteger(64, SecureRandom.getInstanceStrong()),

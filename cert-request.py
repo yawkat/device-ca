@@ -64,7 +64,7 @@ def fetch_ca(args):
             cns = cert.subject.get_attributes_for_oid(cryptography.x509.oid.NameOID.COMMON_NAME)
             if len(cns) != 1:
                 raise Exception("Invalid number of common names")
-            if cns[0].value != "root@ca.local.yawk.at":
+            if cns[0].value != "root@ca.local.yawk.at" and cns[0].value != "ca@ca.local.yawk.at":
                 raise Exception("Invalid CN")
             for ext in cert.extensions:
                 if ext.oid == cryptography.x509.oid.ExtensionOID.NAME_CONSTRAINTS:
