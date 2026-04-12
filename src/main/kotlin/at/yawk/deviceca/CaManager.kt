@@ -10,6 +10,7 @@ import org.bouncycastle.asn1.x509.KeyUsage
 import org.bouncycastle.asn1.x509.NameConstraints
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo
 import org.bouncycastle.cert.X509CertificateHolder
+import org.bouncycastle.cert.bc.BcX509ExtensionUtils
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter
 import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder
 import org.bouncycastle.openssl.PEMKeyPair
@@ -206,6 +207,8 @@ class CaManager(
         )
         builder.addExtension(Extension.keyUsage, false, KeyUsage(KeyUsage.keyCertSign))
         builder.addExtension(Extension.basicConstraints, true, BasicConstraints(1))
+        builder.addExtension(Extension.subjectKeyIdentifier, false,
+            BcX509ExtensionUtils().createSubjectKeyIdentifier(SubjectPublicKeyInfo.getInstance(keyPair.public.encoded)))
         val holder = builder.build(
             JcaContentSignerBuilder("SHA256WithRSAEncryption")
                 .build(keyPair.private)
