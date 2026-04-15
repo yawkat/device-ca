@@ -73,7 +73,7 @@ def fetch_ca(args):
                         raise Exception("Invalid number of permitted subtrees")
                     if subtrees[0].value != "local.yawk.at":
                         raise Exception("Invalid permitted subtree")
-                elif ext.oid != cryptography.x509.oid.ExtensionOID.BASIC_CONSTRAINTS and ext.oid != cryptography.x509.oid.ExtensionOID.KEY_USAGE:
+                elif ext.oid != cryptography.x509.oid.ExtensionOID.BASIC_CONSTRAINTS and ext.oid != cryptography.x509.oid.ExtensionOID.KEY_USAGE and ext.oid != cryptography.x509.oid.ExtensionOID.SUBJECT_KEY_IDENTIFIER:
                     raise Exception("Unknown extension")
             reencoded = cert.public_bytes(cryptography.hazmat.primitives.serialization.Encoding.PEM)
             with open(os.path.join(tmp, "ca_yawk_at_" + str(i) + ".crt"), "wb") as cert_file:
