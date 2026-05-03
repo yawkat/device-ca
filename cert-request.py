@@ -17,6 +17,7 @@ from datetime import time
 NAME_KEY = "private.pem"
 LEGACY_NAME_KEY = "private.key"
 NAME_CERT = "certificate.crt"
+NAME_COMBINED = "combined.pem"
 
 def main():
     logging.basicConfig(level=logging.INFO)
@@ -127,11 +128,12 @@ def update(args):
     logging.info("Generating CSR")
     key = cryptography.hazmat.primitives.asymmetric.rsa.generate_private_key(public_exponent=65537, key_size=2048)
 
-    write_key(args, os.path.join(dest, NAME_KEY), key.private_bytes(
+    private_pem = key.private_bytes(
         cryptography.hazmat.primitives.serialization.Encoding.PEM,
         format=cryptography.hazmat.primitives.serialization.PrivateFormat.PKCS8,
         encryption_algorithm=cryptography.hazmat.primitives.serialization.NoEncryption()
-    ))
+    )
+    write_key(args, os.path.join(dest, NAME_KEY), private_pem)
     write_key(args, os.path.join(dest, "private.der"), key.private_bytes(
         cryptography.hazmat.primitives.serialization.Encoding.DER,
         format=cryptography.hazmat.primitives.serialization.PrivateFormat.PKCS8,
@@ -154,6 +156,7 @@ def update(args):
     with open(os.path.join(dest, NAME_CERT), "wb") as cert_file:
         cert_file.write(response.content)
     os.symlink(os.path.join(dest, NAME_KEY), os.path.join(dest, LEGACY_NAME_KEY))
+    write_key(args, os.path.join(dest, NAME_COMBINED), response.content + private_pem)
     logging.info("Certificate received, verifying")
     try:
         verification = cryptography.x509.verification
