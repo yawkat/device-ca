@@ -32,6 +32,7 @@ import java.nio.file.Path
 import java.nio.file.StandardOpenOption
 import java.time.Duration
 import java.time.InstantSource
+import java.time.temporal.ChronoUnit
 import java.util.UUID
 import kotlin.io.path.createDirectories
 import kotlin.io.path.createDirectory
@@ -149,7 +150,7 @@ class CsrController(
         }
 
         val certificate = signingKey.sign(
-            clock.instant(),
+            clock.instant().minus(30, ChronoUnit.MINUTES),
             csr.subjectPublicKeyInfo,
             cn,
             if (cn.contains('@')) GeneralName(
