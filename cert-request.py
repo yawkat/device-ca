@@ -101,9 +101,18 @@ def fetch_ca(args):
             shutil.rmtree(p)
             logging.info("Removed obsolete certificate directory %s", p)
 
+def fsync_dir(path):
+    fd = os.open(path, os.O_RDONLY)
+    try:
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+
 def write_key(args, path, content):
     with open(os.open(path, flags=os.O_WRONLY | os.O_CREAT | os.O_EXCL, mode=0o640), 'wb') as key_file:
         key_file.write(content)
+        key_file.flush()
+        os.fsync(key_file.fileno())
     if args.group is not None:
         os.chown(path, 0, grp.getgrnam(args.group).gr_gid)
 
@@ -155,8 +164,13 @@ def update(args):
     cert = cryptography.x509.load_pem_x509_certificate(response.content)
     with open(os.path.join(dest, NAME_CERT), "wb") as cert_file:
         cert_file.write(response.content)
+        cert_file.flush()
+        os.fsync(cert_file.fileno())
     os.symlink(os.path.join(dest, NAME_KEY), os.path.join(dest, LEGACY_NAME_KEY))
     write_key(args, os.path.join(dest, NAME_COMBINED), response.content + private_pem)
+    # make sure all files and the symlink above are durable before we start relying on
+    # them (in particular before the pin request below, which invalidates the old cert)
+    fsync_dir(dest)
     logging.info("Certificate received, verifying")
     try:
         verification = cryptography.x509.verification
@@ -177,6 +191,7 @@ def update(args):
     if not enroll:
         os.remove(os.path.join(latest_dir))
     os.symlink(os.path.abspath(dest), latest_dir)
+    fsync_dir(args.cert_directory)
     logging.info("Done, cleaning up")
 
     for f in os.listdir(args.cert_directory):
