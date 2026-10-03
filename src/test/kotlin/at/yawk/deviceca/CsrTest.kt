@@ -65,7 +65,7 @@ class CsrTest {
         run("curl -fsSO ${server.uri}/ca.tar")
         run("tar xf ca.tar")
         run("openssl verify -CAfile 0.pem chain.pem")
-        run("openssl x509 -in chain.pem -text | grep UPN:foo@test.local.yawk.at")
+        run("openssl x509 -in chain.pem -text | grep -E 'UPN::?foo@test.local.yawk.at'")
     }
 
     @Test
