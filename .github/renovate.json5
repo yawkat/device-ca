@@ -1,0 +1,40 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: ['config:recommended'],
+  // Same cooldown as the flake update.
+  minimumReleaseAge: '5 days',
+  // flake.lock is updated by update-flake.yml.
+  nix: { enabled: false },
+  // Renovate's own commits change the versions, renovate-deps.yml then regenerates nix/deps.json on top. Without
+  // this, Renovate would consider that branch edited and stop rebasing it.
+  gitIgnoredAuthors: ['41898282+github-actions[bot]@users.noreply.github.com'],
+  customManagers: [
+    {
+      // The Micronaut Gradle plugin picks the platform BOM from this property, which Renovate doesn't see on its own.
+      customType: 'regex',
+      managerFilePatterns: ['/^gradle\\.properties$/'],
+      matchStrings: ['micronautVersion=(?<currentValue>\\S+)'],
+      depNameTemplate: 'io.micronaut.platform:micronaut-platform',
+      datasourceTemplate: 'maven',
+    },
+  ],
+  packageRules: [
+    {
+      // One PR, so nix/deps.json is regenerated once per batch instead of once per dependency.
+      matchUpdateTypes: ['minor', 'patch'],
+      groupName: 'non-major dependencies',
+    },
+    {
+      // KSP versions are tied to the Kotlin version. Minor and patch updates are already in the group above.
+      matchUpdateTypes: ['major'],
+      matchPackageNames: ['org.jetbrains.kotlin**', 'com.google.devtools.ksp**'],
+      groupName: 'kotlin',
+    },
+    {
+      // The Gradle plugins have to match the platform's major version.
+      matchUpdateTypes: ['major'],
+      matchPackageNames: ['io.micronaut**'],
+      groupName: 'micronaut',
+    },
+  ],
+}

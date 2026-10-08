@@ -1,0 +1,50 @@
+name: Renovate deps.json
+
+# Renovate bumps the versions in the Gradle build, but can't regenerate nix/deps.json, so the nix build of its
+# branches fails. This adds a commit with the regenerated file. That push is made with GITHUB_TOKEN, which doesn't
+# trigger workflows, so the build is then started explicitly for the new commit.
+on:
+  push:
+    branches: [ 'renovate/**' ]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: renovate-deps-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deps:
+    # Only Renovate's pushes, not the commit added below or manual pushes to its branches
+    if: github.actor == 'renovate[bot]'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
+
+      - name: Regenerate nix/deps.json
+        run: nix build .#server.mitmCache.updateScript && ./result
+
+      - name: Commit
+        id: commit
+        run: |
+          if git diff --quiet -- nix/deps.json; then
+            echo "nix/deps.json is up to date"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Regenerate nix/deps.json' -- nix/deps.json
+          git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      # The checks of the dispatched run are reported on the new commit, so they show up on the PR.
+      - name: Build the new commit
+        if: steps.commit.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run build.yml --ref "$GITHUB_REF_NAME"

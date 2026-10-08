@@ -5,6 +5,8 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  # started by renovate-deps.yml after it pushes the regenerated nix/deps.json
+  workflow_dispatch:
 
 permissions:
   contents: read
