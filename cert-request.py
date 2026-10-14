@@ -67,15 +67,22 @@ def fetch_ca(args):
                 raise Exception("Invalid number of common names")
             if cns[0].value != "root@ca.local.yawk.at" and cns[0].value != "ca@ca.local.yawk.at":
                 raise Exception("Invalid CN")
+            has_name_constraints = False
             for ext in cert.extensions:
                 if ext.oid == cryptography.x509.oid.ExtensionOID.NAME_CONSTRAINTS:
+                    if not ext.critical:
+                        raise Exception("Name constraints not critical")
                     subtrees = ext.value.permitted_subtrees
-                    if len(subtrees) != 1:
+                    if subtrees is None or len(subtrees) != 1:
                         raise Exception("Invalid number of permitted subtrees")
-                    if subtrees[0].value != "local.yawk.at":
+                    if not isinstance(subtrees[0], cryptography.x509.DNSName) or subtrees[0].value != "local.yawk.at":
                         raise Exception("Invalid permitted subtree")
+                    has_name_constraints = True
                 elif ext.oid != cryptography.x509.oid.ExtensionOID.BASIC_CONSTRAINTS and ext.oid != cryptography.x509.oid.ExtensionOID.KEY_USAGE and ext.oid != cryptography.x509.oid.ExtensionOID.SUBJECT_KEY_IDENTIFIER:
                     raise Exception("Unknown extension")
+            # without the name constraint, the CA could sign certificates for any domain
+            if not has_name_constraints:
+                raise Exception("Missing name constraints")
             reencoded = cert.public_bytes(cryptography.hazmat.primitives.serialization.Encoding.PEM)
             with open(os.path.join(tmp, "ca_yawk_at_" + str(i) + ".crt"), "wb") as cert_file:
                 cert_file.write(reencoded)
