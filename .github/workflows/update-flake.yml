@@ -26,14 +26,14 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v7
-      - uses: cachix/install-nix-action@v31
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: cachix/install-nix-action@448cde739abec1eaf0646249e3d25bb8d9bc7702 # v31.11.2
       # Pinned to a commit: it runs with this job's write permissions.
-      - uses: yawkat/flake-cooldown@5286c6acca43da847b27c2c3a19623911389553f
+      - uses: yawkat/flake-cooldown@67de7b8719cab25a83e2d523321e0c08ea66b106
         id: update
         with:
           cooldown-days: ${{ inputs.cooldown_days }}
-      - uses: peter-evans/create-pull-request@v8
+      - uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           branch: update_flake_lock_action
           delete-branch: true

@@ -8,8 +8,8 @@
   lib,
   stdenv,
   gradle-packages,
-  jdk21,
-  jdk21_headless,
+  jdk25,
+  jdk25_headless,
   makeWrapper,
   # used by the tests
   openssl,
@@ -43,7 +43,7 @@ let
         hashAlgo = "sha256";
         toHashFormat = "sri";
       };
-      defaultJava = jdk21;
+      defaultJava = jdk25;
     }).wrapped;
 in
 stdenv.mkDerivation (finalAttrs: {
@@ -97,7 +97,7 @@ stdenv.mkDerivation (finalAttrs: {
     classpath=$(sed -n 's|^CLASSPATH=||p' build/install/device-ca/bin/device-ca \
       | sed "s|\$APP_HOME/lib/|$out/share/device-ca/lib/|g")
     test -n "$classpath"
-    makeWrapper ${lib.getExe jdk21_headless} $out/bin/device-ca \
+    makeWrapper ${lib.getExe jdk25_headless} $out/bin/device-ca \
       --add-flags "-cp $classpath at.yawk.deviceca.ApplicationKt"
     runHook postInstall
   '';

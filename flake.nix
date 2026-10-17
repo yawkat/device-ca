@@ -35,7 +35,7 @@
         default = pkgs.mkShell {
           inputsFrom = [ self.packages.${pkgs.stdenv.hostPlatform.system}.server ];
           packages = [
-            pkgs.jdk21
+            pkgs.jdk25
             self.packages.${pkgs.stdenv.hostPlatform.system}.server.gradle
           ];
         };

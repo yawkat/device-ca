@@ -1,16 +1,16 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.9.25"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.9.25"
-    id("com.google.devtools.ksp") version "1.9.25-1.0.20"
-    id("io.micronaut.application") version "4.6.2"
-    id("com.gradleup.shadow") version "8.3.11"
-    id("io.micronaut.aot") version "4.6.2"
+    id("org.jetbrains.kotlin.jvm") version "2.4.21"
+    id("org.jetbrains.kotlin.plugin.allopen") version "2.4.21"
+    id("com.google.devtools.ksp") version "2.3.12"
+    id("io.micronaut.application") version "5.0.2"
+    id("com.gradleup.shadow") version "9.6.1"
+    id("io.micronaut.aot") version "5.0.2"
 }
 
 version = "0.1"
 group = "at.yawk.deviceca"
 
-val kotlinVersion = project.properties.get("kotlinVersion")
+val kotlinVersion = project.property("kotlinVersion")
 repositories {
     mavenCentral()
 }
@@ -21,10 +21,10 @@ dependencies {
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
     compileOnly("io.micronaut:micronaut-http-client")
     runtimeOnly("ch.qos.logback:logback-classic")
-    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+    runtimeOnly("tools.jackson.module:jackson-module-kotlin")
     testImplementation("io.micronaut:micronaut-http-client")
 
     implementation("org.bouncycastle:bcpkix-jdk18on:1.86")
@@ -36,7 +36,7 @@ application {
     mainClass = "at.yawk.deviceca.ApplicationKt"
 }
 java {
-    sourceCompatibility = JavaVersion.toVersion("21")
+    sourceCompatibility = JavaVersion.toVersion("25")
 }
 
 
@@ -65,7 +65,7 @@ micronaut {
 
 
 tasks.named<io.micronaut.gradle.docker.NativeImageDockerfile>("dockerfileNative") {
-    jdkVersion = "21"
+    jdkVersion = "25"
 }
 
 
