@@ -422,9 +422,6 @@
    "jar": "sha256-AN2ark7Gui5tUn5MkcAL23gUIGuGKVjeovl0WJs5hzo=",
    "pom": "sha256-J6/IA62/RLTtB+n6/rIdwTmA83hVgS1jcLRV8MD2hzQ="
   },
-  "org/jetbrains/kotlin#kotlin-stdlib-jdk7/1.8.0": {
-   "pom": "sha256-36lkSmrluJjuR1ux9X6DC6H3cK7mycFfgRKqOBGAGEo="
-  },
   "org/jetbrains/kotlin#kotlin-stdlib-jdk7/1.9.0": {
    "pom": "sha256-wRB08MiYqYuGPGFEcdQ409+Soewzgqbjf5NdfXGVS1o="
   },
@@ -439,10 +436,10 @@
    "jar": "sha256-+U/feDkM6b4wODvwOcWpNcrqM7EfA3/H+Gu87hkoflo=",
    "pom": "sha256-iFJunaBb6fYOQo2CJojL5PW7mpJAxaz5W7fHJH4F0lc="
   },
-  "org/jetbrains/kotlin#kotlin-stdlib/2.0.21": {
-   "jar": "sha256-8xzFPxBafkjAk2g7vVQ3Vh0SM5IFE3dLRwgFZBvtvAk=",
-   "module": "sha256-gf1tGBASSH7jJG7/TiustktYxG5bWqcpcaTd8b0VQe0=",
-   "pom": "sha256-/LraTNLp85ZYKTVw72E3UjMdtp/R2tHKuqYFSEA+F9o="
+  "org/jetbrains/kotlin#kotlin-stdlib/2.4.10": {
+   "jar": "sha256-TsApO8N1FCOyA/HYSTJRxXxC5z62N3prhWDQl0/wpt8=",
+   "module": "sha256-HASpjxIAyHBdAV3wiXchFYnuy8h88cTG0oqSaC/oRG4=",
+   "pom": "sha256-n4HyXpa5GRUzkt7VO9MyFudmJJCc/QgKPtsnjUT8NPA="
   },
   "org/jetbrains/kotlin#kotlin-tooling-core/1.9.25": {
    "jar": "sha256-iTjrl+NjINqj5vsqYP0qBbIy/0pVcXPFAZ8EW4gy2fQ=",
