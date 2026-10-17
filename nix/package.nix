@@ -7,7 +7,7 @@
 {
   lib,
   stdenv,
-  gradle_8,
+  gradle-packages,
   jdk21,
   jdk21_headless,
   makeWrapper,
@@ -18,7 +18,33 @@
 }:
 
 let
-  gradle = gradle_8.override { java = jdk21; };
+  # Gradle's version is taken from the wrapper rather than nixpkgs: deps.json depends on it (e.g. through the
+  # embedded kotlin-stdlib it pins on the buildscript classpath), so a nixpkgs gradle bump would break the build.
+  wrapperProps = lib.listToAttrs (
+    map
+      (
+        line:
+        let
+          m = builtins.match "([^=]+)=(.*)" line;
+        in
+        lib.nameValuePair (builtins.elemAt m 0) (builtins.elemAt m 1)
+      )
+      (
+        builtins.filter (line: builtins.match "[^#].*=.*" line != null) (
+          lib.splitString "\n" (builtins.readFile ../gradle/wrapper/gradle-wrapper.properties)
+        )
+      )
+  );
+  gradle =
+    (gradle-packages.mkGradle {
+      version = builtins.head (builtins.match ".*/gradle-(.*)-bin\\.zip" wrapperProps.distributionUrl);
+      hash = builtins.convertHash {
+        hash = wrapperProps.distributionSha256Sum;
+        hashAlgo = "sha256";
+        toHashFormat = "sri";
+      };
+      defaultJava = jdk21;
+    }).wrapped;
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "device-ca";
