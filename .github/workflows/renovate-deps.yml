@@ -26,6 +26,11 @@ jobs:
       - uses: actions/checkout@v7
       - uses: cachix/install-nix-action@v31
 
+      # The update script runs Gradle in bwrap, which needs unprivileged user namespaces. Ubuntu restricts those
+      # through AppArmor.
+      - name: Allow unprivileged user namespaces
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
       - name: Regenerate nix/deps.json
         run: nix build .#server.mitmCache.updateScript && ./result
 
