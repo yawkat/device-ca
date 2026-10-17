@@ -2,9 +2,9 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.9.25"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.9.25"
     id("com.google.devtools.ksp") version "1.9.25-1.0.20"
-    id("io.micronaut.application") version "4.6.2"
+    id("io.micronaut.application") version "5.0.2"
     id("com.gradleup.shadow") version "8.3.11"
-    id("io.micronaut.aot") version "4.6.2"
+    id("io.micronaut.aot") version "5.0.2"
 }
 
 version = "0.1"
