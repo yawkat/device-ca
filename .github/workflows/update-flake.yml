@@ -6,7 +6,7 @@ on:
       cooldown_days:
         description: >-
           Only take third-party commits at least this many days old
-          (0 for an urgent update). Inputs under yawkat/ are exempt.
+          (0 for an urgent update). Inputs under yawkat/ and nixpkgs are exempt.
         type: number
         default: 5
   schedule:
@@ -29,10 +29,13 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: cachix/install-nix-action@448cde739abec1eaf0646249e3d25bb8d9bc7702 # v31.11.2
       # Pinned to a commit: it runs with this job's write permissions.
-      - uses: yawkat/flake-cooldown@67de7b8719cab25a83e2d523321e0c08ea66b106
+      - uses: yawkat/flake-cooldown@a05db221b1449ef970e3b4112b467ef8361f25b6
         id: update
         with:
           cooldown-days: ${{ inputs.cooldown_days }}
+          # Stable channel: its changes are reviewed backports, and security
+          # fixes should not wait out the cooldown.
+          exempt-inputs: nixpkgs
       - uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           branch: update_flake_lock_action
