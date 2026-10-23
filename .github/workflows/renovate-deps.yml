@@ -18,7 +18,7 @@ jobs:
   deps:
     # Only Renovate's pushes, not the commit added below or manual pushes to its branches
     if: github.actor == 'renovate[bot]'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: write
       actions: write
