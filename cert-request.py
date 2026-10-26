@@ -179,19 +179,35 @@ def public_roots():
     with open(path, "rb") as f:
         return f.read()
 
-def renew_public(args):
+def verify_public(cn, chain_pem):
+    """Check that the chain is publicly trusted for cn, returns the leaf."""
     import cryptography.x509.verification
 
+    chain = cryptography.x509.load_pem_x509_certificates(chain_pem)
+    roots = cryptography.x509.load_pem_x509_certificates(public_roots())
+    cryptography.x509.verification.PolicyBuilder()\
+        .store(cryptography.x509.verification.Store(roots))\
+        .build_server_verifier(cryptography.x509.DNSName(cn))\
+        .verify(chain[0], chain[1:])
+    return chain[0]
+
+def renew_public(args):
     existing_cert_file = os.path.join(args.cert_directory, "latest", NAME_CERT)
     if os.path.exists(existing_cert_file):
         with open(existing_cert_file, "rb") as f:
-            existing = cryptography.x509.load_pem_x509_certificate(f.read())
-        lifetime = existing.not_valid_after_utc - existing.not_valid_before_utc
-        remaining = existing.not_valid_after_utc - datetime.datetime.now(datetime.timezone.utc)
-        # the server allows only a few certificates per week
-        if remaining > lifetime / 3:
-            logging.info("Certificate valid until %s, not renewing yet", existing.not_valid_after_utc)
-            return
+            existing_pem = f.read()
+        try:
+            existing = verify_public(args.cn, existing_pem)
+        except Exception as e:
+            # e.g. the local certificate standing in until the first public one
+            logging.info("Current certificate is not publicly trusted (%s), renewing", e)
+        else:
+            lifetime = existing.not_valid_after_utc - existing.not_valid_before_utc
+            remaining = existing.not_valid_after_utc - datetime.datetime.now(datetime.timezone.utc)
+            # the server allows only a few certificates per week
+            if remaining > lifetime / 3:
+                logging.info("Certificate valid until %s, not renewing yet", existing.not_valid_after_utc)
+                return
 
     auth_dir = os.path.join(args.auth_cert_directory, "latest")
     session_id = str(uuid.uuid4())
@@ -219,14 +235,8 @@ def renew_public(args):
         response.raise_for_status()
 
         logging.info("Certificate received, verifying")
-        chain = cryptography.x509.load_pem_x509_certificates(response.content)
-        if chain[0].public_key() != key.public_key():
+        if verify_public(args.cn, response.content).public_key() != key.public_key():
             raise Exception("Certificate is not for our key")
-        roots = cryptography.x509.load_pem_x509_certificates(public_roots())
-        cryptography.x509.verification.PolicyBuilder()\
-            .store(cryptography.x509.verification.Store(roots))\
-            .build_server_verifier(cryptography.x509.DNSName(args.cn))\
-            .verify(chain[0], chain[1:])
 
         write_cert(args, dest, response.content, private_pem)
     except BaseException:
