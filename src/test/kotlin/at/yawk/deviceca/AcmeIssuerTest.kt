@@ -2,14 +2,14 @@ package at.yawk.deviceca
 
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.exceptions.HttpStatusException
-import io.micronaut.json.JsonMapper
+import io.micronaut.context.ApplicationContext
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 import java.nio.file.attribute.PosixFilePermissions
 import java.security.Signature
-import java.time.InstantSource
+import kotlin.io.path.exists
 import kotlin.io.path.getPosixFilePermissions
 import kotlin.io.path.listDirectoryEntries
 
@@ -34,18 +34,23 @@ class AcmeIssuerTest {
         Assertions.assertEquals(listOf(path), path.parent.listDirectoryEntries())
     }
 
-    private fun issuer(tokenFile: String) = LetsEncryptIssuer(
-        tmp, "acme://letsencrypt.org/staging", "http://127.0.0.1:1", tokenFile, JsonMapper.createDefault(),
-        InstantSource.system()
-    )
-
     @Test
     fun `unavailable without token`() {
         for (tokenFile in listOf("", tmp.resolve("missing").toString())) {
-            val e = Assertions.assertThrows(HttpStatusException::class.java) { issuer(tokenFile).prepare() }
-            Assertions.assertEquals(HttpStatus.SERVICE_UNAVAILABLE, e.status)
+            val storage = tmp.resolve("storage-${tokenFile.length}")
+            ApplicationContext.run(mapOf(
+                "storage" to storage.toString(),
+                "local-key-path" to storage.resolve("local.key").toString(),
+                "local-cert-path" to storage.resolve("local.pem").toString(),
+                "cloudflare.token-file" to tokenFile,
+            )).use { ctx ->
+                val e = Assertions.assertThrows(HttpStatusException::class.java) {
+                    ctx.getBean(LetsEncryptIssuer::class.java).prepare()
+                }
+                Assertions.assertEquals(HttpStatus.SERVICE_UNAVAILABLE, e.status)
+            }
+            // nothing was created on the way
+            Assertions.assertFalse(storage.resolve("acme").exists())
         }
-        // nothing was created on the way
-        Assertions.assertEquals(emptyList<Path>(), tmp.listDirectoryEntries())
     }
 }

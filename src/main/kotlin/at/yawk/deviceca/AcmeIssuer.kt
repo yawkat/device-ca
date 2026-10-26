@@ -3,7 +3,7 @@ package at.yawk.deviceca
 import io.micronaut.context.annotation.Value
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.exceptions.HttpStatusException
-import io.micronaut.json.JsonMapper
+import io.micronaut.http.client.HttpClient
 import jakarta.inject.Singleton
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo
@@ -104,9 +104,9 @@ class LetsEncryptIssuer(
     private val directory: String,
     @Value("\${cloudflare.api-url}")
     private val cloudflareApiUrl: String,
+    private val httpClient: HttpClient,
     @Value("\${cloudflare.token-file:}")
     private val cloudflareTokenFile: String,
-    private val json: JsonMapper,
     private val clock: InstantSource,
 ) : AcmeIssuer {
     private val cloudflare by lazy {
@@ -115,7 +115,7 @@ class LetsEncryptIssuer(
         } catch (_: NoSuchFileException) {
             null
         }
-        if (token.isNullOrEmpty()) null else Cloudflare(cloudflareApiUrl, token, CHALLENGE_ZONE, json)
+        if (token.isNullOrEmpty()) null else Cloudflare(httpClient, cloudflareApiUrl, token, CHALLENGE_ZONE)
     }
 
     private val login: Login by lazy {

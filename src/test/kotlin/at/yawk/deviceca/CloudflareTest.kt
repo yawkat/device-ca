@@ -1,17 +1,25 @@
 package at.yawk.deviceca
 
 import com.sun.net.httpserver.HttpServer
+import io.micronaut.context.ApplicationContext
+import io.micronaut.http.client.HttpClient
 import io.micronaut.json.JsonMapper
 import io.micronaut.json.tree.JsonNode
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.io.TempDir
 import java.net.InetSocketAddress
+import java.nio.file.Path
 
 class CloudflareTest {
     private val json = JsonMapper.createDefault()
     private lateinit var server: HttpServer
+    @TempDir
+    lateinit var storage: Path
+    private lateinit var ctx: ApplicationContext
+    private lateinit var client: HttpClient
 
     /** id to name of the TXT records in the stub zone */
     private val records = linkedMapOf<String, String>()
@@ -20,9 +28,16 @@ class CloudflareTest {
 
     @BeforeEach
     fun start() {
+        ctx = ApplicationContext.run(mapOf(
+            "storage" to storage.toString(),
+            "local-key-path" to storage.resolve("local.key").toString(),
+            "local-cert-path" to storage.resolve("local.pem").toString(),
+        ))
+        client = ctx.getBean(HttpClient::class.java)
         server = HttpServer.create(InetSocketAddress("127.0.0.1", 0), 0)
-        server.createContext("/") { exchange ->
-            val path = exchange.requestURI.toString()
+        // like the real API, below a path
+        server.createContext("/client/v4/") { exchange ->
+            val path = exchange.requestURI.toString().removePrefix("/client/v4")
             requests.add("${exchange.requestMethod} $path")
             Assertions.assertEquals("Bearer secret", exchange.requestHeaders.getFirst("Authorization"))
             val result: Any = when {
@@ -48,6 +63,7 @@ class CloudflareTest {
                 else -> throw AssertionError("Unexpected request $path")
             }
             val response = json.writeValueAsBytes(mapOf("success" to true, "errors" to emptyList<Any>(), "result" to result))
+            exchange.responseHeaders.add("Content-Type", "application/json")
             exchange.sendResponseHeaders(200, response.size.toLong())
             exchange.responseBody.use { it.write(response) }
         }
@@ -56,11 +72,12 @@ class CloudflareTest {
 
     @AfterEach
     fun stop() {
+        ctx.close()
         server.stop(0)
     }
 
     private fun cloudflare(visible: MutableList<String>) =
-        object : Cloudflare("http://127.0.0.1:${server.address.port}", "secret", "cats.coffee", json) {
+        object : Cloudflare(client, "http://127.0.0.1:${server.address.port}/client/v4", "secret", "cats.coffee") {
             override fun awaitVisible(name: String, value: String) {
                 visible.add(name)
             }

@@ -1,13 +1,12 @@
 package at.yawk.deviceca
 
-import io.micronaut.json.JsonMapper
+import io.micronaut.http.HttpRequest
+import io.micronaut.http.MutableHttpRequest
+import io.micronaut.http.client.HttpClient
+import io.micronaut.http.client.exceptions.HttpClientResponseException
+import io.micronaut.http.uri.UriBuilder
 import io.micronaut.json.tree.JsonNode
 import org.slf4j.LoggerFactory
-import java.net.URI
-import java.net.URLEncoder
-import java.net.http.HttpClient
-import java.net.http.HttpRequest
-import java.net.http.HttpResponse
 import java.time.Duration
 import java.time.Instant
 import java.util.Hashtable
@@ -22,17 +21,15 @@ private val LOG = LoggerFactory.getLogger(Cloudflare::class.java)
  * Zone:Read and DNS:Edit on that zone.
  */
 open class Cloudflare(
+    private val client: HttpClient,
     private val apiUrl: String,
     private val token: String,
     private val zoneName: String,
-    private val json: JsonMapper,
 ) {
-    private val http = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10)).build()
-
     private class Zone(val id: String, val nameServers: List<String>)
 
     private val zone by lazy {
-        val result = call("GET", "/zones?name=${encode(zoneName)}").get("result")
+        val result = call(HttpRequest.GET<Any>(api("zones").queryParam("name", zoneName).build())).get("result")
         if (result == null || result.size() != 1) {
             throw IllegalStateException("Zone $zoneName not found")
         }
@@ -49,15 +46,15 @@ open class Cloudflare(
      */
     fun <R> withTxtRecord(name: String, value: String, action: () -> R): R {
         deleteTxtRecords(name)
-        val body = json.writeValueAsBytes(mapOf("type" to "TXT", "name" to name, "content" to value, "ttl" to 60))
-        val id = call("POST", "/zones/${zone.id}/dns_records", body).get("result")!!.get("id")!!.stringValue
+        val body = mapOf("type" to "TXT", "name" to name, "content" to value, "ttl" to 60)
+        val id = call(HttpRequest.POST(api("zones/${zone.id}/dns_records").build(), body)).get("result")!!.get("id")!!.stringValue
         LOG.info("Created TXT record {}", name)
         try {
             awaitVisible(name, value)
             return action()
         } finally {
             try {
-                call("DELETE", "/zones/${zone.id}/dns_records/$id")
+                call(HttpRequest.DELETE<Any>(api("zones/${zone.id}/dns_records/$id").build()))
                 LOG.info("Deleted TXT record {}", name)
             } catch (e: Exception) {
                 LOG.warn("Failed to delete TXT record {}", name, e)
@@ -66,9 +63,10 @@ open class Cloudflare(
     }
 
     private fun deleteTxtRecords(name: String) {
-        val existing = call("GET", "/zones/${zone.id}/dns_records?type=TXT&name=${encode(name)}").get("result")!!
+        val uri = api("zones/${zone.id}/dns_records").queryParam("type", "TXT").queryParam("name", name).build()
+        val existing = call(HttpRequest.GET<Any>(uri)).get("result")!!
         for (record in existing.values()) {
-            call("DELETE", "/zones/${zone.id}/dns_records/${record.get("id")!!.stringValue}")
+            call(HttpRequest.DELETE<Any>(api("zones/${zone.id}/dns_records/${record.get("id")!!.stringValue}").build()))
             LOG.info("Deleted stale TXT record {}", name)
         }
     }
@@ -103,27 +101,19 @@ open class Cloudflare(
         }
     }
 
-    private fun call(method: String, path: String, body: ByteArray? = null): JsonNode {
-        val request = HttpRequest.newBuilder(URI.create(apiUrl + path))
-            .header("Authorization", "Bearer $token")
-            .header("Content-Type", "application/json")
-            .timeout(Duration.ofSeconds(30))
-            .method(
-                method,
-                if (body == null) HttpRequest.BodyPublishers.noBody() else HttpRequest.BodyPublishers.ofByteArray(body)
-            )
-            .build()
-        val response = http.send(request, HttpResponse.BodyHandlers.ofByteArray())
+    private fun api(path: String) = UriBuilder.of(apiUrl).path(path)
+
+    private fun call(request: MutableHttpRequest<*>): JsonNode {
+        request.bearerAuth(token)
         val node = try {
-            json.readValue(response.body(), JsonNode::class.java)
-        } catch (_: Exception) {
-            null
+            client.toBlocking().retrieve(request, JsonNode::class.java)
+        } catch (e: HttpClientResponseException) {
+            val errors = e.response.getBody(JsonNode::class.java).map { it.get("errors") }.orElse(null)
+            throw IllegalStateException("Cloudflare API ${request.method} ${request.path} failed with ${e.status}: $errors")
         }
-        if (response.statusCode() !in 200..299 || node?.get("success")?.booleanValue != true) {
-            throw IllegalStateException("Cloudflare API $method $path failed with ${response.statusCode()}: ${node?.get("errors")}")
+        if (node?.get("success")?.booleanValue != true) {
+            throw IllegalStateException("Cloudflare API ${request.method} ${request.path} failed: ${node?.get("errors")}")
         }
         return node
     }
-
-    private fun encode(s: String) = URLEncoder.encode(s, Charsets.UTF_8)
 }
