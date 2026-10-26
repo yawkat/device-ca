@@ -2,6 +2,7 @@
 
 import argparse
 import cryptography.x509
+import datetime
 import grp
 import hashlib
 import io
@@ -28,9 +29,12 @@ def main():
     subparsers = parser.add_subparsers(dest="command")
     enroll_parser = subparsers.add_parser('enroll')
     renew_parser = subparsers.add_parser('renew')
+    # a publicly trusted (Let's Encrypt) certificate, authenticated by the local certificate in --auth-cert-directory
+    renew_public_parser = subparsers.add_parser('renew-public')
+    renew_public_parser.add_argument("--auth-cert-directory")
     subparsers.add_parser('update-ca')
 
-    for p in [enroll_parser, renew_parser]:
+    for p in [enroll_parser, renew_parser, renew_public_parser]:
         p.add_argument("--cert-directory")
         p.add_argument("--cn")
         p.add_argument("--no-system-ca", action="store_true")
@@ -40,6 +44,8 @@ def main():
 
     if args.command == 'update-ca':
         fetch_ca(args)
+    elif args.command == 'renew-public':
+        renew_public(args)
     else:
         update(args)
 
@@ -123,6 +129,112 @@ def write_key(args, path, content):
     if args.group is not None:
         os.chown(path, 0, grp.getgrnam(args.group).gr_gid)
 
+def generate_key(args, dest):
+    key = cryptography.hazmat.primitives.asymmetric.rsa.generate_private_key(public_exponent=65537, key_size=2048)
+
+    private_pem = key.private_bytes(
+        cryptography.hazmat.primitives.serialization.Encoding.PEM,
+        format=cryptography.hazmat.primitives.serialization.PrivateFormat.PKCS8,
+        encryption_algorithm=cryptography.hazmat.primitives.serialization.NoEncryption()
+    )
+    write_key(args, os.path.join(dest, NAME_KEY), private_pem)
+    write_key(args, os.path.join(dest, "private.der"), key.private_bytes(
+        cryptography.hazmat.primitives.serialization.Encoding.DER,
+        format=cryptography.hazmat.primitives.serialization.PrivateFormat.PKCS8,
+        encryption_algorithm=cryptography.hazmat.primitives.serialization.NoEncryption()
+    ))
+    return key, private_pem
+
+def write_cert(args, dest, chain, private_pem):
+    with open(os.path.join(dest, NAME_CERT), "wb") as cert_file:
+        cert_file.write(chain)
+        cert_file.flush()
+        os.fsync(cert_file.fileno())
+    os.symlink(os.path.join(dest, NAME_KEY), os.path.join(dest, LEGACY_NAME_KEY))
+    write_key(args, os.path.join(dest, NAME_COMBINED), chain + private_pem)
+    # make sure all files and the symlink above are durable before we start relying on
+    # them (in particular before the pin request below, which invalidates the old cert)
+    fsync_dir(dest)
+
+def activate(args, session_id, dest):
+    latest_dir = os.path.join(args.cert_directory, "latest")
+    if os.path.lexists(latest_dir):
+        os.remove(latest_dir)
+    os.symlink(os.path.abspath(dest), latest_dir)
+    fsync_dir(args.cert_directory)
+    logging.info("Done, cleaning up")
+
+    for f in os.listdir(args.cert_directory):
+        if f != "latest" and f != session_id:
+            shutil.rmtree(os.path.join(args.cert_directory, f))
+
+def public_roots():
+    # The public roots only, without the local CA: the point is that devices without it trust the cert. Not
+    # certifi.where(), that is the system bundle (with the local CA) on NixOS and Debian. The Nix package sets this to
+    # the plain CA bundle.
+    path = os.environ.get("CERT_REQUEST_PUBLIC_ROOTS")
+    if path is None:
+        import importlib.resources
+        return importlib.resources.files("certifi").joinpath("cacert.pem").read_bytes()
+    with open(path, "rb") as f:
+        return f.read()
+
+def renew_public(args):
+    import cryptography.x509.verification
+
+    existing_cert_file = os.path.join(args.cert_directory, "latest", NAME_CERT)
+    if os.path.exists(existing_cert_file):
+        with open(existing_cert_file, "rb") as f:
+            existing = cryptography.x509.load_pem_x509_certificate(f.read())
+        lifetime = existing.not_valid_after_utc - existing.not_valid_before_utc
+        remaining = existing.not_valid_after_utc - datetime.datetime.now(datetime.timezone.utc)
+        # the server allows only a few certificates per week
+        if remaining > lifetime / 3:
+            logging.info("Certificate valid until %s, not renewing yet", existing.not_valid_after_utc)
+            return
+
+    auth_dir = os.path.join(args.auth_cert_directory, "latest")
+    session_id = str(uuid.uuid4())
+    dest = os.path.join(args.cert_directory, session_id)
+    os.makedirs(dest)
+    try:
+        logging.info("Generating CSR")
+        key, private_pem = generate_key(args, dest)
+        # the server only accepts exactly this name in the CN and SAN
+        csr = cryptography.x509.CertificateSigningRequestBuilder().subject_name(cryptography.x509.Name([
+            cryptography.x509.NameAttribute(cryptography.x509.oid.NameOID.COMMON_NAME, args.cn),
+        ])).add_extension(
+            cryptography.x509.SubjectAlternativeName([cryptography.x509.DNSName(args.cn)]), critical=False
+        ).sign(key, cryptography.hazmat.primitives.hashes.SHA256())
+
+        logging.info("Submitting CSR")
+        response = requests.post(
+            "https://ca.local.yawk.at/csr/public",
+            csr.public_bytes(cryptography.hazmat.primitives.serialization.Encoding.PEM),
+            verify=not args.no_system_ca,
+            cert=(os.path.join(auth_dir, NAME_CERT), os.path.join(auth_dir, LEGACY_NAME_KEY))
+        )
+        if not response.ok:
+            logging.error("Request failed: %s", response.text)
+        response.raise_for_status()
+
+        logging.info("Certificate received, verifying")
+        chain = cryptography.x509.load_pem_x509_certificates(response.content)
+        if chain[0].public_key() != key.public_key():
+            raise Exception("Certificate is not for our key")
+        roots = cryptography.x509.load_pem_x509_certificates(public_roots())
+        cryptography.x509.verification.PolicyBuilder()\
+            .store(cryptography.x509.verification.Store(roots))\
+            .build_server_verifier(cryptography.x509.DNSName(args.cn))\
+            .verify(chain[0], chain[1:])
+
+        write_cert(args, dest, response.content, private_pem)
+    except BaseException:
+        # don't leave the unused key behind
+        shutil.rmtree(dest)
+        raise
+    activate(args, session_id, dest)
+
 def update(args):
     latest_dir = os.path.join(args.cert_directory, "latest")
     existing_cert_file = os.path.join(latest_dir, NAME_CERT)
@@ -142,19 +254,7 @@ def update(args):
     os.makedirs(dest)
 
     logging.info("Generating CSR")
-    key = cryptography.hazmat.primitives.asymmetric.rsa.generate_private_key(public_exponent=65537, key_size=2048)
-
-    private_pem = key.private_bytes(
-        cryptography.hazmat.primitives.serialization.Encoding.PEM,
-        format=cryptography.hazmat.primitives.serialization.PrivateFormat.PKCS8,
-        encryption_algorithm=cryptography.hazmat.primitives.serialization.NoEncryption()
-    )
-    write_key(args, os.path.join(dest, NAME_KEY), private_pem)
-    write_key(args, os.path.join(dest, "private.der"), key.private_bytes(
-        cryptography.hazmat.primitives.serialization.Encoding.DER,
-        format=cryptography.hazmat.primitives.serialization.PrivateFormat.PKCS8,
-        encryption_algorithm=cryptography.hazmat.primitives.serialization.NoEncryption()
-    ))
+    key, private_pem = generate_key(args, dest)
 
     csr = cryptography.x509.CertificateSigningRequestBuilder().subject_name(cryptography.x509.Name([
         cryptography.x509.NameAttribute(cryptography.x509.oid.NameOID.COMMON_NAME, args.cn),
@@ -169,15 +269,7 @@ def update(args):
     )
     response.raise_for_status()
     cert = cryptography.x509.load_pem_x509_certificate(response.content)
-    with open(os.path.join(dest, NAME_CERT), "wb") as cert_file:
-        cert_file.write(response.content)
-        cert_file.flush()
-        os.fsync(cert_file.fileno())
-    os.symlink(os.path.join(dest, NAME_KEY), os.path.join(dest, LEGACY_NAME_KEY))
-    write_key(args, os.path.join(dest, NAME_COMBINED), response.content + private_pem)
-    # make sure all files and the symlink above are durable before we start relying on
-    # them (in particular before the pin request below, which invalidates the old cert)
-    fsync_dir(dest)
+    write_cert(args, dest, response.content, private_pem)
     logging.info("Certificate received, verifying")
     try:
         verification = cryptography.x509.verification
@@ -195,15 +287,7 @@ def update(args):
             .verify(cert, [])
         # UDN CN is a bit annoying to verify, so don't do that.
 
-    if not enroll:
-        os.remove(os.path.join(latest_dir))
-    os.symlink(os.path.abspath(dest), latest_dir)
-    fsync_dir(args.cert_directory)
-    logging.info("Done, cleaning up")
-
-    for f in os.listdir(args.cert_directory):
-        if f != "latest" and f != session_id:
-            shutil.rmtree(os.path.join(args.cert_directory, f))
+    activate(args, session_id, dest)
 
     logging.info("Pinning cert")
     requests.post(
