@@ -67,6 +67,22 @@ in
       description = "Group the server runs as. Created automatically if left at the default.";
     };
 
+    cloudflareTokenCredential = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      example = "device-ca-cloudflare-token";
+      description = ''
+        Name of the systemd credential (e.g. passed into the machine, or in /etc/credstore) holding a Cloudflare API
+        token with Zone:Read and DNS:Edit on the cats.coffee zone only. A name rather than a path: a missing credential
+        then only disables public certificates, instead of the whole service.
+
+        With it, the server gets publicly trusted Let's Encrypt certificates for local names (`/csr/public`), by DNS-01
+        challenges in that zone: the `_acme-challenge.<host>.local.yawk.at` record of each name must be a CNAME to
+        `<host>._acme.cats.coffee`. This needs outbound HTTPS to Let's Encrypt and the Cloudflare API, and DNS (port 53)
+        to the zone's name servers.
+      '';
+    };
+
     reloadServices = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [ ];
@@ -88,6 +104,11 @@ in
       {
         assertion = lib.hasPrefix "/var/lib/" cfg.dataDir;
         message = "services.device-ca.dataDir must be below /var/lib.";
+      }
+      {
+        assertion =
+          cfg.cloudflareTokenCredential == null || !lib.hasInfix "/" cfg.cloudflareTokenCredential;
+        message = "services.device-ca.cloudflareTokenCredential must be a credential name, not a path.";
       }
     ];
 
@@ -113,6 +134,9 @@ in
         LOCAL_CERT_PATH = "${cfg.tlsDir}/local.pem";
         MICRONAUT_SERVER_HOST = cfg.host;
         MICRONAUT_SERVER_PORT = toString cfg.port;
+      }
+      // lib.optionalAttrs (cfg.cloudflareTokenCredential != null) {
+        CLOUDFLARE_TOKEN_FILE = "%d/cloudflare-token";
       };
 
       serviceConfig = {
@@ -129,8 +153,12 @@ in
         ReadWritePaths = [ cfg.tlsDir ];
         # the reverse proxy reads the TLS key through the group
         UMask = "0027";
+        LoadCredential = lib.optional (
+          cfg.cloudflareTokenCredential != null
+        ) "cloudflare-token:${cfg.cloudflareTokenCredential}";
 
-        # hardening: the server only needs to listen on a port, resolve names and write its state
+        # hardening: the server only needs to listen on a port, resolve names, make HTTPS and DNS requests and write its
+        # state
         NoNewPrivileges = true;
         ProtectSystem = "strict";
         ProtectHome = true;

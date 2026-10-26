@@ -22,13 +22,13 @@ dependencies {
     implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
-    compileOnly("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-http-client")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("tools.jackson.module:jackson-module-kotlin")
-    testImplementation("io.micronaut:micronaut-http-client")
 
     implementation("org.bouncycastle:bcpkix-jdk18on:1.86")
     implementation("org.apache.commons:commons-compress:1.28.0")
+    implementation("org.shredzone.acme4j:acme4j-client:5.1.0")
 }
 
 

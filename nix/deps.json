@@ -1319,6 +1319,10 @@
    "module": "sha256-4IAoExN1s1fR0oc06aT7QhbahLJAZByz7358fWKCI/w=",
    "pom": "sha256-MjVQgdEJCVw9XTdNWkO09MG3XVSemD71ByPidy5TAqA="
   },
+  "org/bitbucket/b_c#jose4j/0.9.6": {
+   "jar": "sha256-cxSvUM3pyZ6Or0Pu5heiPtzGu0MDYiEGQ1UJSZnYN+8=",
+   "pom": "sha256-P7f6cT6J1CeEvfTRkuziF0AAQL2n6TOIap9FzoubVX4="
+  },
   "org/bouncycastle#bc-jdk18on-bom/1.84": {
    "module": "sha256-iKuIhKXnQS6Y8JHBRu7BRNeej4yVjzgLwtTNDwrUaGk=",
    "pom": "sha256-8O7pMr+yRrDfvrwIkmE2TGA9ut6tGPxV/WNCwXxW80w="
@@ -1326,6 +1330,9 @@
   "org/bouncycastle#bcpkix-jdk18on/1.86": {
    "jar": "sha256-jYtBpLFJva6NMx8FmleIcJVNHj/yn4Jpqes+4Zp+Tvc=",
    "pom": "sha256-RJiYRPsXs56wjqvq+B4f0WrFDJlNXAIRn4kSIMOsWHg="
+  },
+  "org/bouncycastle#bcprov-jdk18on/1.83": {
+   "pom": "sha256-yHzwb1qsRlY4Dx1EGyRZ++Bm7IErKUab0LP8uLsgV0o="
   },
   "org/bouncycastle#bcprov-jdk18on/1.86": {
    "jar": "sha256-KvGQswDLsLNeJIzPX0oGtgcgMK6z2nqY7HOr5bTLNx8=",
@@ -1537,12 +1544,28 @@
    "jar": "sha256-91yll3ibPaxY9hhXuawuEDSmj6Zy2zUFWo+0UJ4yXyg=",
    "pom": "sha256-VLoj2HotQ4VAyZ74eUoIVvxXOiVrSYZ4KDw8Z+8Yrag="
   },
+  "org/shredzone/acme4j#acme4j-client/5.1.0": {
+   "jar": "sha256-SlZRFRLy54Kdwk/iosoKxMbtWTxjtFWzb73/MEQpTCw=",
+   "pom": "sha256-BoW3zFlHe5BXGFLD5ekzuvCdp8SDGE0ejsDZ3rYvzh0="
+  },
+  "org/shredzone/acme4j#acme4j/5.1.0": {
+   "pom": "sha256-G9gPuuA5ImBM66p3noyVVncGyO1pxUp17r9srjKgspg="
+  },
+  "org/slf4j#slf4j-api/2.0.17": {
+   "pom": "sha256-FQxAKH987NwhuTgMqsmOkoxPM8Aj22s0jfHFrJdwJr8="
+  },
   "org/slf4j#slf4j-api/2.0.18": {
    "jar": "sha256-RFCP0VdlAGiMeQsZCs3Rb+xPjHmj4LkAr9cFA88FX1U=",
    "pom": "sha256-bCx/LAJ3TMK3thn70t94c82tKXGJJuRHVLh/cNHrQ8s="
   },
+  "org/slf4j#slf4j-bom/2.0.17": {
+   "pom": "sha256-940ntkK0uIbrg5/BArXNn+fzDzdZn/5oGFvk4WCQMek="
+  },
   "org/slf4j#slf4j-bom/2.0.18": {
    "pom": "sha256-khmqtgFXUSbE5m4TMesrDGwXozCsTVoH480R1YCgwS0="
+  },
+  "org/slf4j#slf4j-parent/2.0.17": {
+   "pom": "sha256-lc1x6FLf2ykSbli3uTnVfsKy5gJDkYUuC1Rd7ggrvzs="
   },
   "org/slf4j#slf4j-parent/2.0.18": {
    "pom": "sha256-CziWvtrSye2Wl+3L6h2gxUzSOKcjWDqBNYqDv7eC6fo="

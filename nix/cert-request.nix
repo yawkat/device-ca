@@ -2,6 +2,7 @@
 {
   lib,
   python3Packages,
+  cacert,
 }:
 
 python3Packages.buildPythonApplication {
@@ -16,8 +17,16 @@ python3Packages.buildPythonApplication {
   format = "other"; # not a standard Python package, just a script
 
   propagatedBuildInputs = with python3Packages; [
+    certifi
     cryptography
     requests
+  ];
+
+  # the public roots that renew-public checks its certificate against, see public_roots()
+  makeWrapperArgs = [
+    "--set-default"
+    "CERT_REQUEST_PUBLIC_ROOTS"
+    "${cacert}/etc/ssl/certs/ca-bundle.crt"
   ];
 
   installPhase = ''
