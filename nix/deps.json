@@ -667,25 +667,25 @@
   "io/micrometer#micrometer-bom/1.17.1": {
    "pom": "sha256-/lzzlAPyQpb4mfAUslGWpnC9j2L/HIdheC1QwcTitMw="
   },
-  "io/micronaut#micronaut-aop/5.2.17": {
-   "jar": "sha256-FTTRtL8kgt0YN0sHB+hcT2hdGkuESEU6+yP37QYgEng=",
-   "module": "sha256-zN7sn6TldEMsajkhQFb3UUasCcrXEKxl/Fx0LBML+PY=",
-   "pom": "sha256-vhFDglBUNycv2/FLhbU86ezXrz0QqEGiWm3E9VN6Rro="
+  "io/micronaut#micronaut-aop/5.2.20": {
+   "jar": "sha256-WUhNr+SOdX1hfOauLugVgkXt3AYLncVtxx93UomMWG0=",
+   "module": "sha256-lNDkbpepq+u80T4XAaOIjQe8YPXTmm45H+zo/IzKWw4=",
+   "pom": "sha256-5A1u52EhVYbe869/IgW2oZn8fdadX23T0TJPs/ncyJo="
   },
-  "io/micronaut#micronaut-buffer-netty/5.2.17": {
-   "jar": "sha256-B1bHoaWULloR05l8yDuw9eIVggZqq1RPSYww1kVNkPA=",
-   "module": "sha256-ngChjtSN1X0MiVsEvMXzJPa7IobE9SmEXmELN3BXo+o=",
-   "pom": "sha256-X+3sXe5OOlf4tOSlCsiAIantnoh9ScOTU+pZ1kyBRs8="
+  "io/micronaut#micronaut-buffer-netty/5.2.20": {
+   "jar": "sha256-QnyN7Fkh7qXYMAIVjJ7/iAoEFVP8ua6HQ25PLr8OOqw=",
+   "module": "sha256-s2hEd9SlaMrH8poHeEHXslRf1o4bpYulmSgBcTJ5aTA=",
+   "pom": "sha256-syoQ50/bhPed14D1ir/2PqtlTgL4ni17bLXAr7OsTfk="
   },
-  "io/micronaut#micronaut-context-propagation/5.2.17": {
-   "jar": "sha256-+RZeu97zA0142K8d5FYNs/hqP0p08VwYgi7VziIRQHc=",
-   "module": "sha256-IyUcds63nkFp9/XQCFqK0DKO3TW2c80O/6NucQ/TMRA=",
-   "pom": "sha256-S9+skst30IHwe8vrQXTk2Ix0rstj1CjQWCe3gmVuGu0="
+  "io/micronaut#micronaut-context-propagation/5.2.20": {
+   "jar": "sha256-LVfmxVi1KEK/TifkGAg2n+wKrue3WRq31dDLxakeEjk=",
+   "module": "sha256-FvBiS7BKqZgR1BAEPvMReyGV0tBuzGectIxIiBK04og=",
+   "pom": "sha256-q75CCXKBP1S9Ebw/mmBSYCFsQRd4eh4gWPfB1DZffxU="
   },
-  "io/micronaut#micronaut-context/5.2.17": {
-   "jar": "sha256-uSWHxf516ebspkl1fbV5y2CPFBD4MD6kdZyLQ6fqkus=",
-   "module": "sha256-Dd8cH5wOFPRoYgNFeFbebdcHA7Xya/gePnf2I0SWrMY=",
-   "pom": "sha256-yBBj1vjGu94B+wZb715MhTYqLhPdgA8TSrK9S2P52v8="
+  "io/micronaut#micronaut-context/5.2.20": {
+   "jar": "sha256-jNoe02USoTo/XlKIO0ND8gM9syoCOP6PFDA6HHhppJQ=",
+   "module": "sha256-T1usIqJkIzSxIVh+TYdu8tErgE3vnVAQZDCW269v1JE=",
+   "pom": "sha256-/zeXjORjHORlA84QEAFf8Wo96E6ijUKF2w3xdG4UaVo="
   },
   "io/micronaut#micronaut-core-bom/5.1.6": {
    "module": "sha256-Bulf9oOUpOpoQRGnYhRSxIRJB15/z7mtlRhhRjj8wMQ=",
@@ -695,9 +695,9 @@
    "module": "sha256-+pLa6MZk8nOFmqpSZjGUKQopVTdMZjf+viB2V53iwws=",
    "pom": "sha256-VCCR0n6xQ/sT8HN8p0Q36fiGspGX5gL42RuULrGYuw8="
   },
-  "io/micronaut#micronaut-core-bom/5.2.17": {
-   "module": "sha256-Wjo7uXueukdGhSzUg5BE08iAme1w0ybZFBx8JiMqKcA=",
-   "pom": "sha256-T0qSxS97nd6NgmamZamlYJqAxey6s336ug5ZUsx+yhQ="
+  "io/micronaut#micronaut-core-bom/5.2.20": {
+   "module": "sha256-IypEDLuU0hB+eAryEbL5tUz254MlkvsQd7ixBt9nxMk=",
+   "pom": "sha256-I3Q1iTjKcEOqQpRnA6rmzM+Dm5KMMDl/e4D39yuIJQI="
   },
   "io/micronaut#micronaut-core-bom/5.2.4": {
    "module": "sha256-9Gyry86XcC/s6y47QaNFFoUC2hRrlTZggvKuA1LqcMA=",
@@ -707,100 +707,100 @@
    "module": "sha256-Mw/FgtBxx1rXPJLmltKwwSINzGTD8yBbJY1IOhPVdGM=",
    "pom": "sha256-c1NEuzolOs7NuGAcSZ5O4/zJJQOGxWsJEAhabPmaTRU="
   },
-  "io/micronaut#micronaut-core-processor/5.2.17": {
-   "jar": "sha256-qxsHAknvBgjvVdyTEHML8+Gvva8bxmooHnY/qp/EK5A=",
-   "module": "sha256-fXjJkS7/xggkj4EVAwox34nBHt8zntZsjwDmIA/ULj0=",
-   "pom": "sha256-XvHNT/h+DgVNiwc4ETds2/vUL0lLwuhY5DAOhWft8Hg="
+  "io/micronaut#micronaut-core-processor/5.2.20": {
+   "jar": "sha256-2B1q9+BMlAPlu9phX4bQBDHwrClw161oBcM3vdVxMHQ=",
+   "module": "sha256-oddAbTxPwZGYy5z69OEjLZ9etuCAzFhctKoAS56KX+s=",
+   "pom": "sha256-mSDPc5YlWqHDX8piWPqVMhIaPpVB8NG7WePrabZt0JI="
   },
-  "io/micronaut#micronaut-core-reactive/5.2.17": {
-   "jar": "sha256-z4aKkRpLjFyJxgJuMB1x29g79DAmBpaX7OyFMnIEpL4=",
-   "module": "sha256-NzWoMauTzXa7WK55brf2/kuSvVV3BS9DnZ9zgCu14/g=",
-   "pom": "sha256-qVSILHkJJ+Hh0yeVeWp7+1aemxQqfUFjV/MTjQqHWuY="
+  "io/micronaut#micronaut-core-reactive/5.2.20": {
+   "jar": "sha256-Y1eEvkXA56pNUwIAWBdH1iOPOTJQOKJOFNpyC4mCmRo=",
+   "module": "sha256-2P0sOJkcjn8pPVUcvB/g398A+RSTPIS3rNJlFq2xkYk=",
+   "pom": "sha256-zwcaI0IkH0RbbLIXrdy6mtzKR+rQELIL8XKvLT6snO0="
   },
-  "io/micronaut#micronaut-core/5.2.17": {
-   "jar": "sha256-j+IgwaEjmcXUEb5W8JpvV0C4B9bfNJmQPtyUzAhybiE=",
-   "module": "sha256-DAnADNqzvkJiOfpjIHuKz/ZPIX/iWrnkzVVEAcjlTk0=",
-   "pom": "sha256-CbGqjGiiMrh3gmvuftZxQZ/5/8pp2TO/tx6QeB79Pgo="
+  "io/micronaut#micronaut-core/5.2.20": {
+   "jar": "sha256-TQxZuIKJp5eMeDz74bOfZwibLWEY9HffuAfmWapZaZw=",
+   "module": "sha256-riBAWhdu1jI0ruuLKDZ9nOLjKwLu7OHHbawm6hF98uQ=",
+   "pom": "sha256-PFPOlm1ApZqwYQuak4tpUTZV7SRe8N0ha7xJ95XYIxw="
   },
-  "io/micronaut#micronaut-discovery-core/5.2.17": {
-   "jar": "sha256-T2OZeUWb3kNM0p5fb6yAYYzoBH45E7pWFXG7BVC+t+E=",
-   "module": "sha256-uYmJOMq+WZ/4C536N+84Sdr/P7TgEVzwO5eoZ0GAPWs=",
-   "pom": "sha256-t1DxBhrqxOgxW5VLkBuhkVDc9VjFeuOvdn4pzOcKMWo="
+  "io/micronaut#micronaut-discovery-core/5.2.20": {
+   "jar": "sha256-T3ihQ2MfZWG5MkOXn++fK6ZKqirknXxKMVCRA4FDVKo=",
+   "module": "sha256-mHfvsu3fG5fumkh4hRbZMRMw8ieLnRLhbAT9Tqtz8ak=",
+   "pom": "sha256-n6azlsMQsO8OlkBilKloXQYVwdQLASBlH4G1CQoDa/A="
   },
-  "io/micronaut#micronaut-graal/5.2.17": {
-   "jar": "sha256-1BEUo69ujs+yPF34v9EbQr9A17BqAul1yM4ZxPtpsYI=",
-   "module": "sha256-jusEVL+D99yHJKwUpek7JCGEp0ZqIbUcVDaJsQhmKW0=",
-   "pom": "sha256-KqZBZZt503lL95G/gAONEbPYtSul6lvQYprojec6Maw="
+  "io/micronaut#micronaut-graal/5.2.20": {
+   "jar": "sha256-3riDg4gzYoEZoH4U1vSKPpBWLbcrnXXAdexWucB8VOM=",
+   "module": "sha256-ARRqPgdjmfY8hAuifn5h5RklpFtht8GV7MvjPOCLCRI=",
+   "pom": "sha256-cYHXhZ1R6XxPmBwR1hOacQJIBBq8HxgY3+t70CF2wFE="
   },
-  "io/micronaut#micronaut-http-client-core/5.2.17": {
-   "jar": "sha256-f03nWRAVTV543OBv8Yh15/cGB2EHPNWDiNcDYVWjvKw=",
-   "module": "sha256-FptCBnuuko2gthbM9Np5sKtPHvanajX5TcKAZ75a9dg=",
-   "pom": "sha256-mLP+juVUIl01lRKgZocUYdni2OdWe0YM2EoJoBnyPFg="
+  "io/micronaut#micronaut-http-client-core/5.2.20": {
+   "jar": "sha256-taGjT+/9/7fgTdtWKwnR9pn+aaNWVSbCd3kWL+dXE3E=",
+   "module": "sha256-01APgDCQ/9MD0VHadYSnq5D59iOHVeCVUPvmVr5Jams=",
+   "pom": "sha256-fth4WN/iNprOCYvKeEnlp3iuXq20r370+o5ocS4BZJ4="
   },
-  "io/micronaut#micronaut-http-client/5.2.17": {
-   "jar": "sha256-Pgeo3H/ZZIGrlNBMPqfXuWThmFCfXwhW8J+ZobK77oU=",
-   "module": "sha256-5i1sVzuhD+gtv3k6gKI3wQ9TuS7A057dxJ8VWRUzYL0=",
-   "pom": "sha256-2FEZqkYrj09mVe7DPWVK6hvwjWLmetZPiS7mbr2xfHU="
+  "io/micronaut#micronaut-http-client/5.2.20": {
+   "jar": "sha256-YVDtUd+Hf8sNg0PJ1qWH2GojZSRNN1eTtel704Di6k8=",
+   "module": "sha256-ylf3X965vYPTNBX3tH5teOb5CdzNhUCR3dSM4ku2Ixs=",
+   "pom": "sha256-QHuDfLlPGRxrZMZL6G2h5VFsIA9Sfu6MPO6ZxMmp9K4="
   },
-  "io/micronaut#micronaut-http-netty/5.2.17": {
-   "jar": "sha256-yXTsxsQIQ36ZkDt20CL0o88HE+T7xnhG6g3WPDOXWq8=",
-   "module": "sha256-+EGv5fhO4OYcsE04hlRWZv2M7vwRYnGYfT+1PRhidog=",
-   "pom": "sha256-Ju3gli0/ywLqZIHe+HBPEWeeIURIPiR+ouO5PCMiE6A="
+  "io/micronaut#micronaut-http-netty/5.2.20": {
+   "jar": "sha256-8DytiewWSEprkCHI1aN245uASIV6UkLfRqpDWpECiSA=",
+   "module": "sha256-AjciXk/pTsblfkK911ko2fQvzfXjRai2h5jjRXahkFw=",
+   "pom": "sha256-00fO11iOCUz2kCikIF5Iz897uSJoIWdR+QcB6xywiR8="
   },
-  "io/micronaut#micronaut-http-server-netty/5.2.17": {
-   "jar": "sha256-wi2VEXIYvD5DBIvRv06jO09k7Cfj7Zl/GgY/QLm8lkY=",
-   "module": "sha256-oiLXxcEne3iTbqU1OGcTaQO9cOxsCbPpI2GS/LrdfXY=",
-   "pom": "sha256-9MWHhKNGKqb7OafW/zDjIOEOUvUGuvt1KOmZQ3cGtHI="
+  "io/micronaut#micronaut-http-server-netty/5.2.20": {
+   "jar": "sha256-N5MDzHNndphyUG6Fp9T86WkrLQTGqui9yfAI88UYNrQ=",
+   "module": "sha256-ltyR5mn3+nPzZ1hdGWqx7pxr72bmpiGEVNBnNv2Es84=",
+   "pom": "sha256-IzQ9xjjoni3OJYJTyFbUMWuj50IJ/eeCgTW6CvatiD8="
   },
-  "io/micronaut#micronaut-http-server/5.2.17": {
-   "jar": "sha256-n50Q4YfmzifckiTxoTMo4Bc59HiVINAn9P1GiUqRXeE=",
-   "module": "sha256-FpiW8/FsYg2orl0xjQRMtEi0sw9cCFo1v8WFYmnH2Ek=",
-   "pom": "sha256-Dndlmk4BJq5sC/QdQ+l30t4jl3kC+CGIS0iqoGw4gVo="
+  "io/micronaut#micronaut-http-server/5.2.20": {
+   "jar": "sha256-0GX5ieWywKAq8/zF6v5hNR0YHzfFCWijT3iwxaDbhb8=",
+   "module": "sha256-dxeELov/RvwWZkJ4Pw6TMh1cNPrrCNO0JyHxHg15FVs=",
+   "pom": "sha256-g2Diznjj1nNk3KqwornAJFmACqfeKwyXqYt3Oj8+FAA="
   },
-  "io/micronaut#micronaut-http-validation/5.2.17": {
-   "jar": "sha256-D5vq0gMblTPa/uSPTbvAutHFeL2iZZx4vqO6Sv/Zqeo=",
-   "module": "sha256-PiUSjNJNfDqDqOzHI4uLk/oQtQdUTx7ybPGng0cxoR0=",
-   "pom": "sha256-3XZvvLjt82RUBLdGg9UB60wyG3KDI4jylFJwT25WizY="
+  "io/micronaut#micronaut-http-validation/5.2.20": {
+   "jar": "sha256-o2gXKY/yHq3OtYHA6R/uvnL9N9yLEGPzxOhXi2zE8zU=",
+   "module": "sha256-l6MVTh7S1WVQiOsOFKPdFnBf4uq7SzbKx+FdP7McXzY=",
+   "pom": "sha256-QeBqp4aTOMFJXAX9BYeb1zb7sRGwME6Zj+3dPjv75fA="
   },
-  "io/micronaut#micronaut-http/5.2.17": {
-   "jar": "sha256-m1NdC9MPNZMRFK344w+BOyY2rR/ZeyTEdjSzs5YWDH0=",
-   "module": "sha256-rwz0FtD7rEze3czxSUBgxH4/4ciS+gJuwRB7SGbqepY=",
-   "pom": "sha256-szQl/TwWbwR4S8AXJGF4XXMkaS7Mh1fa/zqzopUwOmg="
+  "io/micronaut#micronaut-http/5.2.20": {
+   "jar": "sha256-5OwpgowMYgHnwth4/SCZHgEBffo/zkdBjExYm1PEhjc=",
+   "module": "sha256-80Oqax1iYHFY5gZrQNlIB5N4BcO7xbEfE3snwXCFffQ=",
+   "pom": "sha256-Wh30d0KYLwt1XznMKIfy+fDffupUbDY7x+P711icM6E="
   },
-  "io/micronaut#micronaut-inject-kotlin/5.2.17": {
-   "jar": "sha256-cg47yGape7Ak4YTiPwoJxa3hjpOY5ecrin4FAghRGvE=",
-   "module": "sha256-/4QlTb+W0Ut9Vy3gCcEK3RZq2D8WEBasrXrpTNeyic4=",
-   "pom": "sha256-3l9lI+/WjcY6qMN40FFn1Al/TzMc6Y5IEiaoI4lrisw="
+  "io/micronaut#micronaut-inject-kotlin/5.2.20": {
+   "jar": "sha256-ChbjlgFPxuovJWS4oWKHjuUn0VF4L7m5sPnBB5WVy9A=",
+   "module": "sha256-sE3sDTLXU2cM/heGNEC805H5NlTMX0KEQMSze/2N5so=",
+   "pom": "sha256-PWf0KKR+3COpYpZL2Hftm/u/DEQZiiOxvxN6Lm7mE+0="
   },
-  "io/micronaut#micronaut-inject/5.2.17": {
-   "jar": "sha256-e5vQaasotzePR8i6el7jFmq3/dpAqyAp7YSxv7nM630=",
-   "module": "sha256-570e+ENyP/0L9k6usholpneEEHHTFPZYW3nTZmpC1Vg=",
-   "pom": "sha256-68ZcOP8P2oOkYOTP9ayQanomdW7OUgUoVszffXPolUU="
+  "io/micronaut#micronaut-inject/5.2.20": {
+   "jar": "sha256-9ETqnACJFD9hrtJF0RZGlgGpeE24qqBMqFss9ByDw3E=",
+   "module": "sha256-I9cUHLdNFMXkjJojI/e3r/AHnncCbnn8Iwc9CAzgZAU=",
+   "pom": "sha256-aGFZ+yHBNMN661q9cMgVPzHsQOlIBK87T9csf+Z9nWU="
   },
-  "io/micronaut#micronaut-jackson-core/5.2.17": {
-   "jar": "sha256-q7QUR9j8r7plKD3lMHMOqwhQSa1S2ARVq847j68mZZY=",
-   "module": "sha256-EvMj68cH49vi7FRknFhkuI6kYkA7/gb9EzSl46iohEQ=",
-   "pom": "sha256-xLqqs97FMLR9lAE2k5k7LgCEJe11L8wwcFmLsax/4Xc="
+  "io/micronaut#micronaut-jackson-core/5.2.20": {
+   "jar": "sha256-nbbMJBx1H6JgwSlGlK7UwVzHYhv62denkD7nNSafSOc=",
+   "module": "sha256-m4D73YusL3YwE0XtkNvN8DAZfzVf875sCycoZdw96jo=",
+   "pom": "sha256-okEXpnvM6hPHYk8/A1x0ku8KhfH+Lp36hOQZsvSeZdg="
   },
-  "io/micronaut#micronaut-json-core/5.2.17": {
-   "jar": "sha256-CmMEhtyzFnW9/M+wTIJg22Vz3G0LyPEfPBWXtJyoo2Y=",
-   "module": "sha256-Q7jAU0H0CAAkUH2By2Cyfg5sDuFz+PTXixs/LKBTYDs=",
-   "pom": "sha256-5/F8jieVx3tGlp80Z/U7OhP98UejT32+WJkfefA7SeU="
+  "io/micronaut#micronaut-json-core/5.2.20": {
+   "jar": "sha256-1Huba+8zveBlUq7At2UBmBNA0wMZhX0ITXPYC53fvNk=",
+   "module": "sha256-1bJiuE2c+Yj94LKygV/rfgVktWCyGEhneRsqdQY5Jxk=",
+   "pom": "sha256-qgw7Ysm9Ebf14lqpDRUGvFLM8s/ZkrJyRr47E/RtLfk="
   },
-  "io/micronaut#micronaut-retry/5.2.17": {
-   "jar": "sha256-ndDOOp44QWL2hJz0oY6AmYsfJrxQA8HmMSmpnpfEmeo=",
-   "module": "sha256-6Sx8o71/PIZ6x7d3cO67AlA8GtHjfNOj+NsyV7n/DY8=",
-   "pom": "sha256-IW58BenMNbQAaYsRjIkFaxyEmY1l5ppcg8IqWdttsEM="
+  "io/micronaut#micronaut-retry/5.2.20": {
+   "jar": "sha256-QBn53i+PLHV+olL7De1j1THAZ8knxISGLShEruvE1VY=",
+   "module": "sha256-R4IDC8w+93oDkIrKk1WZtZHn/SxSe/kFrbx2fW88W/4=",
+   "pom": "sha256-vNkAas2xtcsxm6gMlACNfaVgN0LrWg7HV8aOlOGNrio="
   },
-  "io/micronaut#micronaut-router/5.2.17": {
-   "jar": "sha256-d9fvWi+/dFRAzLm3Hu4URoj9V7/eJOD+MFGPafatdSI=",
-   "module": "sha256-dqgkq/3Es1PewIWDH84dsCGutFcVKjvQhV5ulxup3Uk=",
-   "pom": "sha256-P+bfPo6YXAFkOrN9b4xOfe2NT0eB4uKUKjtkkhXHQww="
+  "io/micronaut#micronaut-router/5.2.20": {
+   "jar": "sha256-nJ34zNjsjy2fC27rThgjIVGrW0sG/C21zLGjQ8irRfk=",
+   "module": "sha256-Xob+3ozh6nsp5Ilx/VyPuiZlrgivOuQ2ia+ZooGvQII=",
+   "pom": "sha256-oambiBWqCEjv1EELTlG5WEuRFIM7v5NhBKA7j2IGrxU="
   },
-  "io/micronaut#micronaut-websocket/5.2.17": {
-   "jar": "sha256-lyGH6cCenLr4gr8vdMnRhOz+9zvSAhOWDYdTN1FhFi4=",
-   "module": "sha256-M9G0y6FNvVvIXzR94v6NZpNiJqIdhR1SIqHpr+8RaDM=",
-   "pom": "sha256-WyQ5RXA1cpwSMMJ1N3KJ8vjrVVpDBedNejJDUt4H9oU="
+  "io/micronaut#micronaut-websocket/5.2.20": {
+   "jar": "sha256-NSUqZ3lFu0E3lflbthI0nw3HXil6bOF4FIzZZBxIX9s=",
+   "module": "sha256-CHTXRSVodroiEDVfjSCm5XZklm/YXQeOkQf0j0frfGo=",
+   "pom": "sha256-eVdzKv5ZW6+kXdAwamsRluYD0uOZKVAvCWve2GIEv0U="
   },
   "io/micronaut/acme#micronaut-acme-bom/6.1.0": {
    "module": "sha256-0RPUFGzJRPHzEDzz2rXyCbVPd7ynGziM8p8R/BytQ78=",
@@ -838,17 +838,17 @@
    "module": "sha256-4zSzyLW3YG7L1AAfr26cKIjPVmImjz87ca+dLpX2Wbc=",
    "pom": "sha256-VVO/lvyyX6gF9/sukovwICGWIw8gyVz/yJr8GLbUfsc="
   },
-  "io/micronaut/controlpanel#micronaut-control-panel-bom/2.2.0": {
-   "module": "sha256-GA169aEosvlJuO9AzfR+cY/eCRG96/uSJmX7LjZtARs=",
-   "pom": "sha256-4hJzsnjHDIsfDpKjS9AeKLZEFAlMeXuiVTg2GT3WANk="
+  "io/micronaut/controlpanel#micronaut-control-panel-bom/2.2.1": {
+   "module": "sha256-inJI+/IxCCirFaEQJfDm3Uiwd+pLSVxvRTg/1OVxVNI=",
+   "pom": "sha256-tVzPjxTP1YYMhzmmL6uxyVmYN9LEbXStNlo+sfVW4YY="
   },
   "io/micronaut/crac#micronaut-crac-bom/3.1.0": {
    "module": "sha256-vXOqGB0bDdouwiMFKeWRVnYzaQBKr4K8WSrqD0zlTcc=",
    "pom": "sha256-257k8HmARisVJ7IpPrIq0hbyx/5CyqhNlCTR+qLiiF0="
   },
-  "io/micronaut/data#micronaut-data-bom/5.2.3": {
-   "module": "sha256-jK0tRJsgC5OHRhZFKNFDFLESaVWlcMOJtvM3JD1ItT0=",
-   "pom": "sha256-PxhyHFZG64pzS4MwkuAO1l4TAZS5JmiZ3qPC7X2poZY="
+  "io/micronaut/data#micronaut-data-bom/5.2.4": {
+   "module": "sha256-IrAxa4PSVUXLlZdURUJjTa8U6cvos7LwL4mVzQpEmVU=",
+   "pom": "sha256-WiZLS+wPLGa2L20cNm3+T/nUARURTlpeDpPT1D7hJew="
   },
   "io/micronaut/discovery#micronaut-discovery-client-bom/5.1.0": {
    "module": "sha256-Q8IB25/pGPS7ByBNYldaL/JwmHQW1L6e7e8ZP8VfM28=",
@@ -975,9 +975,9 @@
    "module": "sha256-7aOxV/D0agCuQ/veohmbM2ep9mzY0nd23+rcvoLGB4I=",
    "pom": "sha256-1dCfizdA9QrwPaAXBt/82j1IqizPGCAfO6kb6Jof580="
   },
-  "io/micronaut/objectstorage#micronaut-object-storage-bom/3.1.1": {
-   "module": "sha256-+mqoBps28a64arKqSxaPGryMOfqVUUWJiMYOimP+oqY=",
-   "pom": "sha256-u1X89zFf/2PSTYBVWz3MlnJ3zIqsGK9IjNlUy80GfdA="
+  "io/micronaut/objectstorage#micronaut-object-storage-bom/3.1.2": {
+   "module": "sha256-bvMvRxbVUCfote+EJKeQ9BmWL2z5a7f/oildpzw3pgg=",
+   "pom": "sha256-kvZj8CG9+7K6h/qfBDY09pdav5jpfVAT9AlbCVSTy5c="
   },
   "io/micronaut/openapi#micronaut-openapi-bom/7.3.0": {
    "module": "sha256-UG+CJ0QbhONm3ArnfHB6Kaj61NmW/JuzR/eu+Oca6vQ=",
@@ -999,9 +999,9 @@
    "module": "sha256-v+FNIbLeIIQrLRO27g22FuChx1e2bhDrCJLvhGOrmmk=",
    "pom": "sha256-A+uudh7poPt3/4LqXo3cb0QiWmXSp3C4eqt4eW6eQSU="
   },
-  "io/micronaut/platform#micronaut-platform/5.2.3": {
-   "module": "sha256-NreKHkWpaAN2H4L7kUAJGTTHwLW/mYEJsfTMznqtK7I=",
-   "pom": "sha256-7zO4jV+JBnhsWBIJj0PQVbZPvFLRf9UksMyqgg+h95s="
+  "io/micronaut/platform#micronaut-platform/5.2.4": {
+   "module": "sha256-XAtVW2eY2bYT32iFfD6Wjgzt5ebsPcHnu3LS/FcAQzw=",
+   "pom": "sha256-THeA35aPf4tLPMC0RfCZfL0z912cBqggfauIEUjK2K0="
   },
   "io/micronaut/problem#micronaut-problem-json-bom/5.1.0": {
    "module": "sha256-uNbmg1sLYZ/jRShP86/rvjhQJTh+0/+CxRDw7EKrfV0=",
@@ -1048,29 +1048,29 @@
    "module": "sha256-sDn0Kwm697z2wIR2vncNWh/hrsEs0h5xyj6bwdGDbN8=",
    "pom": "sha256-mV+AZRaFNNwVOeE6FdnH2wa1T/87nKYugLedXjbFMPE="
   },
-  "io/micronaut/serde#micronaut-serde-api/3.2.5": {
-   "jar": "sha256-Py7MW5YOkNlz9nZyg16le69SJG6fIXHPokkEuOdGUTU=",
-   "module": "sha256-5D2Sfs1FH7LtXI6qFM2kR0gI4ucuFvG2v1PnhB9kzOI=",
-   "pom": "sha256-hN3yPxk/P2I3oRba0rf05zR+IuWVNoakvvEWWbNHsq0="
+  "io/micronaut/serde#micronaut-serde-api/3.2.6": {
+   "jar": "sha256-U9hOD6Vqd1vfQgZd9qhvgBLnbGQQe/xdERobVf8eauo=",
+   "module": "sha256-d/2nnsco6zhZ3HVDvW1MgTIz0kvt8mz7PHor6OV8BgY=",
+   "pom": "sha256-V4r/2IvXloZI7byOKO//+0xz5sGusxPu08Ild7b4/Cs="
   },
-  "io/micronaut/serde#micronaut-serde-bom/3.2.5": {
-   "module": "sha256-CacxawRvqnC1q3BCO+GY6Lkt0CIt+QQNBLSH6H9pPF8=",
-   "pom": "sha256-iSm0ISDa5c1zgkNj+A11Oc1T1LhE7yepbJTpkNWPSKg="
+  "io/micronaut/serde#micronaut-serde-bom/3.2.6": {
+   "module": "sha256-yKI73OGwIDXZZ9oSCuz4Q74RA7uOdNKFty2b7M8opXA=",
+   "pom": "sha256-HEKqodoGSEKyrOP0EvwLB2hTB4bTY/uoGNrIU0qHQe4="
   },
-  "io/micronaut/serde#micronaut-serde-jackson/3.2.5": {
-   "jar": "sha256-xIGJ4bZTa8HDaGyyy6xJnPh7FISeFr/i5OnLLl1s+v8=",
-   "module": "sha256-s+tBnxMKCuq5BNgVgcNb/+bjxK25eh3gQwU+jKh6oQA=",
-   "pom": "sha256-vVuPmrw0yzGZGXAmJFPi+zRvof6+40SEF1m0mi7ykM0="
+  "io/micronaut/serde#micronaut-serde-jackson/3.2.6": {
+   "jar": "sha256-8r3w6NyItHvh5Eg8se3XDb45+GcUDLiyflhy25r1fgM=",
+   "module": "sha256-+yHUH5H5p3hVpaj+/rXY0+f43WKafaGz/1tVKo1Ec5c=",
+   "pom": "sha256-oeL72FIxa8GxiG48UO0b+VNjPMeOrxH0n9TL7/vlpz8="
   },
-  "io/micronaut/serde#micronaut-serde-processor/3.2.5": {
-   "jar": "sha256-zJpzqzWeve2vcYbYxTRKB/HXlrZ8yk5W2Otv1jo0d1E=",
-   "module": "sha256-38OJzuPv/JiCayjLMBeAAK8NLf5AJvlX+yKoL2XmowA=",
-   "pom": "sha256-8ThQP3BlbrFI6GblTHXr/IBi9qBSAlvgAGHlIhhDu80="
+  "io/micronaut/serde#micronaut-serde-processor/3.2.6": {
+   "jar": "sha256-y536lTqVhGFMMvURlmj1SPTCL4YOUmqZFfNcu14rki0=",
+   "module": "sha256-wC4e27k7CckmvgdJVG2dW2f9lCuA5DQdq/KX9tdkW/E=",
+   "pom": "sha256-smp3ze83I19bGx+DUEzM0EDFI/L60iIWMdFm+k0cJJc="
   },
-  "io/micronaut/serde#micronaut-serde-support/3.2.5": {
-   "jar": "sha256-JnVB6QgxuPNBBTfowCvSAkz9Sxa2ZBRJpaxUcuC4ZVk=",
-   "module": "sha256-D/2yAm/pC3758AqAECX6m6oumwYbEa1wsZzhHAgLb+U=",
-   "pom": "sha256-8dKdAgrvpgg8zEpDkYjUdoEI0AglbK5gaStFbJSVGAA="
+  "io/micronaut/serde#micronaut-serde-support/3.2.6": {
+   "jar": "sha256-IMbG2smFZKTNs4eGHAvNBhxMPSYBgpPNalPe+Fn2Keo=",
+   "module": "sha256-juEATKxItGl6KxsUC0TXZNUPSU/3pA3zHwoF206YnlY=",
+   "pom": "sha256-b7pGYlguUlcNsgZT82bBqYFanvmvAMXPdSVzxqMw71M="
   },
   "io/micronaut/servlet#micronaut-servlet-bom/6.2.2": {
    "module": "sha256-9QXdVI1ySBClRSdLm3mpByxFZ/SUjOAk9J0QBUn3cKI=",
@@ -1080,10 +1080,10 @@
    "module": "sha256-5O+NfooB03/HTrkwuU84Att+C3ye0gtFgeapAfJZoG4=",
    "pom": "sha256-tLYMkQoUu50pp78DhnSznPXcoEL6kxXnwSpIBiIzSzQ="
   },
-  "io/micronaut/sourcegen#micronaut-sourcegen-annotations/2.2.3": {
-   "jar": "sha256-A3U93xElmuHFeI6tLFb/WpiydWEBhIMk/lxXitBPgUQ=",
-   "module": "sha256-rLUjvVwTrPqjZ1hdI+7jRQk6L2uxlOH98tQhcpeGiCw=",
-   "pom": "sha256-E/ntSDEc5Ofsx9u/Ji/fx/VY2b10yFl+CaMkQNF/d0M="
+  "io/micronaut/sourcegen#micronaut-sourcegen-annotations/2.2.4": {
+   "jar": "sha256-9oPLB14fTwy9N7caph030NU/V0v7YMNneZfM/ALoulA=",
+   "module": "sha256-IlR3TXcXRLT1H90wkKFGbVHNLDrBwv3cTE9aiiAnSQ4=",
+   "pom": "sha256-oMOGp0u0vC97neA+38EMQV43eSReW1E88jmw8d+uVoU="
   },
   "io/micronaut/sourcegen#micronaut-sourcegen-bom/2.0.0": {
    "module": "sha256-rZitCciraxrk1FJSMh/wzxv5lXQlc9Yw1NPHIvJPykY=",
@@ -1093,34 +1093,34 @@
    "module": "sha256-hIewpKx4F2ictuAgHn+dtmf+UJSSYi216ilncCRMTkM=",
    "pom": "sha256-IWlU6hCZZPFuZ1bLDfBR6Gol1UCLbgqPp67xi6smsxA="
   },
-  "io/micronaut/sourcegen#micronaut-sourcegen-bom/2.2.3": {
-   "module": "sha256-quWtcUpeagsa82CumC/78tbAqfkS9D413qDgT6IbOtw=",
-   "pom": "sha256-HeAJpJ1j0APmdHkZRwGfgHXN0vvj5FYf/Vn6AMVQ0e0="
+  "io/micronaut/sourcegen#micronaut-sourcegen-bom/2.2.4": {
+   "module": "sha256-C7IeWA0Pr6a7E6ZR3vLhCl7aVnV0hgIJsmwS0/cCaJQ=",
+   "pom": "sha256-HWB7fkWjItuJB2WBrrux97lCvUGy+eB+bY2srYrFZ80="
   },
-  "io/micronaut/sourcegen#micronaut-sourcegen-bytecode-writer-core/2.2.3": {
-   "jar": "sha256-CDe0JAWVELbgoFXbZgsyY9epwbRGUCluEZ+BXMTS3VE=",
-   "module": "sha256-l3fxy6PkQf5G0f+SwLQ2ImYtUkoeAOA2Aw4zVtju3Ek=",
-   "pom": "sha256-sPbrYWTbpFOjPTBxMTsngBWx+2T1lmBYGs5VZJewQus="
+  "io/micronaut/sourcegen#micronaut-sourcegen-bytecode-writer-core/2.2.4": {
+   "jar": "sha256-gDBMWsWEw2v9TP5VwDbiztEBe4YQ2ANXmwQ4uQ1Tes4=",
+   "module": "sha256-+KiKeSiwKUsnzrk7dKYBFQR9Hf+qzVCU6IIct7tld+s=",
+   "pom": "sha256-LJeG0BirUZGs1Qg1QUI4qA5OYu5T2SKKPdAffJtdoVk="
   },
-  "io/micronaut/sourcegen#micronaut-sourcegen-bytecode-writer/2.2.3": {
-   "jar": "sha256-zEa7Ckod6e+zCCJobKUmR5+HIQvp5cDMEwEQdmWI2wg=",
-   "module": "sha256-DlgQKkui1VQVPX3qpDweI+KY4HhhWVoqam/MiUqrPMg=",
-   "pom": "sha256-RYRpGrrL7h8+5aBLUa0Jj3syJvK22uI7GUQu4D3mZTo="
+  "io/micronaut/sourcegen#micronaut-sourcegen-bytecode-writer/2.2.4": {
+   "jar": "sha256-Ko+6XoGal+JNg8fPMwm9OrKQvKUdH/a74qdW0SlX6wQ=",
+   "module": "sha256-eC8MSjJAzTq3l2uRcsb4p9KTysA3DuXXRa5n2kBb/ro=",
+   "pom": "sha256-UcyXjoJdzS5glNQDN0TAy5nNznt4Fo8Ic1Ex9SFJucU="
   },
-  "io/micronaut/sourcegen#micronaut-sourcegen-generator-java/2.2.3": {
-   "jar": "sha256-eFqBjenPk+WgrVDhEJ/VZc3v94a/1OZQN8Mf6tQYqWQ=",
-   "module": "sha256-WF18+mgRPX4iY09Q+wx99wyW+bfbOkpiII0rc/TYhUM=",
-   "pom": "sha256-Lc/fbDuFWj2lm2QqZhrTKP1tvXbyfB/vYB6d9s0y/NU="
+  "io/micronaut/sourcegen#micronaut-sourcegen-generator-java/2.2.4": {
+   "jar": "sha256-G6pzPOxsUG3vCUAPT+toaZ1ls+7s+eZ0vYd/bL0Znc8=",
+   "module": "sha256-PP5gonP3GT/F3OFNczoIGIH8upAnE+gEtPOD13Y2V7A=",
+   "pom": "sha256-amFKrdYYXBePD3JbiUy5beqkbRJdTqxUcNhTJ3KjZ1Q="
   },
-  "io/micronaut/sourcegen#micronaut-sourcegen-generator/2.2.3": {
-   "jar": "sha256-U3IhsQuy1u5UEkOPWMkPu/56ZB8jnQ8l+KKIXAj8yxM=",
-   "module": "sha256-FA4SnjZsmfLl+PuE0txHjzEenmW7P/GkEZ8IZgZdVUg=",
-   "pom": "sha256-tauRU+oDW0ec5d2My6g7wawrZfaYPZACctirzpSucxk="
+  "io/micronaut/sourcegen#micronaut-sourcegen-generator/2.2.4": {
+   "jar": "sha256-GmyJnG8k8viB872SfKG7iDyEF9T+s941XlO7FvF9r4w=",
+   "module": "sha256-fuGNC9W+RugYZdt12K6zBy/53BdNN7nqRYyElJ3vG90=",
+   "pom": "sha256-+fZ9Bj+D6XZWHWUfyFLfbCNTToVNkd9I//117fj/Uyk="
   },
-  "io/micronaut/sourcegen#micronaut-sourcegen-model/2.2.3": {
-   "jar": "sha256-macdTah87elAccRMWV42XlyJN6t75AgI/PqRwCGDqSE=",
-   "module": "sha256-W3gkdG8eLfN6+Diu8ZrM359AeO5V7Ir1GBE3SBwFX6Q=",
-   "pom": "sha256-YNHaCa/QTJupBDtzrk3dLFSEc7Zc4pO5AN9bXlM9H1g="
+  "io/micronaut/sourcegen#micronaut-sourcegen-model/2.2.4": {
+   "jar": "sha256-brwAh1L2heQuQWBZ8OoP2ZG5cW//YcrpHENVS87sRd8=",
+   "module": "sha256-LyK9D5l/vAk+dh9QqXbqZEv8ce8jtivnkL7vnK7AEuk=",
+   "pom": "sha256-6JF1piuOy0VQFnWZEjitFReg6uJ90IUki2MtoxMJoeo="
   },
   "io/micronaut/spring#micronaut-spring-bom/6.1.0": {
    "module": "sha256-MX1EJheTSh4hbTitW+yeFL7PK9l7nut3FpwWLp39j6U=",
