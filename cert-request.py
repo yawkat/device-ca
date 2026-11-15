@@ -20,6 +20,12 @@ LEGACY_NAME_KEY = "private.key"
 NAME_CERT = "certificate.crt"
 NAME_COMBINED = "combined.pem"
 
+# (connect, read) in seconds. requests has no timeout of its own, so a stalled connection would hang forever, and with
+# it every systemd job (including a nixos switch) waiting for the oneshot unit running this.
+TIMEOUT = (30, 60)
+# The server issues public certificates through ACME while the request is open, which takes a few minutes.
+PUBLIC_TIMEOUT = (30, 600)
+
 def main():
     logging.basicConfig(level=logging.INFO)
 
@@ -51,7 +57,7 @@ def main():
 
 
 def fetch_ca(args):
-    response = requests.get("https://ca.yawk.at/ca.tar")
+    response = requests.get("https://ca.yawk.at/ca.tar", timeout=TIMEOUT)
     response.raise_for_status()
     tar_bytes = response.content
     tar_hash = hashlib.sha256(tar_bytes).hexdigest()
@@ -228,7 +234,8 @@ def renew_public(args):
             "https://ca.local.yawk.at/csr/public",
             csr.public_bytes(cryptography.hazmat.primitives.serialization.Encoding.PEM),
             verify=not args.no_system_ca,
-            cert=(os.path.join(auth_dir, NAME_CERT), os.path.join(auth_dir, LEGACY_NAME_KEY))
+            cert=(os.path.join(auth_dir, NAME_CERT), os.path.join(auth_dir, LEGACY_NAME_KEY)),
+            timeout=PUBLIC_TIMEOUT,
         )
         if not response.ok:
             logging.error("Request failed: %s", response.text)
@@ -275,7 +282,8 @@ def update(args):
         "https://ca.local.yawk.at/csr/" + ("enroll" if enroll else "renew"),
         csr.public_bytes(cryptography.hazmat.primitives.serialization.Encoding.PEM),
         verify=verify,
-        cert=(None if enroll else (existing_cert_file, existing_key_file))
+        cert=(None if enroll else (existing_cert_file, existing_key_file)),
+        timeout=TIMEOUT,
     )
     response.raise_for_status()
     cert = cryptography.x509.load_pem_x509_certificate(response.content)
@@ -303,7 +311,8 @@ def update(args):
     requests.post(
         "https://ca.local.yawk.at/csr/pin",
         verify=verify,
-        cert=(existing_cert_file, existing_key_file)
+        cert=(existing_cert_file, existing_key_file),
+        timeout=TIMEOUT,
     ).raise_for_status()
 
 
