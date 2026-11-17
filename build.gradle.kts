@@ -26,7 +26,7 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("tools.jackson.module:jackson-module-kotlin")
 
-    implementation("org.bouncycastle:bcpkix-jdk18on:1.86")
+    implementation("org.bouncycastle:bcpkix-jdk18on:1.87")
     implementation("org.apache.commons:commons-compress:1.28.0")
     implementation("org.shredzone.acme4j:acme4j-client:5.1.0")
 }
