@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 
 import argparse
+import cryptography.hazmat.primitives.asymmetric.rsa
+import cryptography.hazmat.primitives.hashes
+import cryptography.hazmat.primitives.serialization
 import cryptography.x509
 import datetime
 import grp
